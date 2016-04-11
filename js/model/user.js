@@ -1,71 +1,81 @@
 (function(angular) {
-    'use strict';
+	'use strict';
 
-    var app = angular.module('app');
+	// Referencia para o nosso app
+	var app = angular.module('app');
 
-    app.factory('User', [function() {  
+	// Cria um service chamado 'User'
+	app.factory('User', [function() {  
 
-        function User(data) {
-            if (data) this.setData(data);
-        };
+		// Modelo do usuário
+		function User(data) {
+			if (data) this.setData(data);
+		};
 
-        User.prototype = {
+		// Métodos do usuário
+		User.prototype = {
 
-            setData: function(data) {
-                angular.extend(this, data);
-            },
+			setData: function(data) {
+				angular.extend(this, data);
+			},
 
-            save: function() {
-                var users = User.all();
-                users.push(this);
-                localStorage.setItem('users', JSON.stringify(users));
-            }
+			save: function() {
+				var users = User.all();
+				users.push(this);
+				localStorage.setItem('users', JSON.stringify(users));
+			}
 
-        };
+		};
 
-        User.all = function() {
-            var json = localStorage.getItem('users') || '[]';
-            return JSON.parse(json);
-        }
+		// Métodos estáticos
+		// Retorna todos os usuários
+		User.all = function() {
+			var json = localStorage.getItem('users') || '[]';
+			return JSON.parse(json);
+		}
 
-        User.find = function(user) {
-            var users = User.all();
-            var equals = false;
+		// Procura por um determinado usuário
+		// Ex: User.find({name : 'Mauricio'})
+		User.find = function(user) {
+			var users = User.all();
+			var equals = false;
 
-            for (var i in users) {
-                equals = false;
+			for (var i in users) {
+				equals = false;
 
-                for (var key in user) {
-                    if (!user.hasOwnProperty(key)) continue;
-                    if (!users[i].hasOwnProperty(key)) continue;
+				for (var key in user) {
+					if (!user.hasOwnProperty(key)) continue;
+					if (!users[i].hasOwnProperty(key)) continue;
 
-                    if (users[i][key] != user[key]) {
-                        equals = false;
-                        break;
-                    } else {
-                        equals = true;
-                    }
-                }
+					if (users[i][key] != user[key]) {
+						equals = false;
+						break;
+					} else {
+						equals = true;
+					}
+				}
 
-                if (equals) return users[i];
-            }
+				if (equals) return users[i];
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        User.setAuthenticated = function(user) {
-            localStorage.setItem('user', user ? JSON.stringify(user) : null);
-        }
+		// Define o usuário autenticado na sessão
+		User.setAuthenticated = function(user) {
+			localStorage.setItem('user', user ? JSON.stringify(user) : null);
+		}
 
-        User.getAuthenticated = function() {
-            var user = localStorage.getItem('user');
+		// Retorna o usuário autenticado na sessão
+		User.getAuthenticated = function() {
+			var user = localStorage.getItem('user');
 
-            if (user) return JSON.parse(user);
-            return null;
-        }
+			if (user) return JSON.parse(user);
+			return null;
+		}
 
-        return User;
+		return User;
 
-    }]);
+	}]);
 
 })(window.angular);
