@@ -31,7 +31,14 @@
 		// Retorna todas as postagens
 		Post.all = function() {
 			var json = localStorage.getItem('posts') || '[]';
-			return JSON.parse(json);
+			var posts = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				posts.push(new Post(json[i]));
+			}
+
+			return posts;
 		}
 
 		// Procura por uma determinada postagem

@@ -31,7 +31,14 @@
 		// Retorna todos os usuários
 		User.all = function() {
 			var json = localStorage.getItem('users') || '[]';
-			return JSON.parse(json);
+			var users = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				users.push(new User(json[i]));
+			}
+
+			return users;
 		}
 
 		// Procura por um determinado usuário
@@ -70,7 +77,7 @@
 		User.getAuthenticated = function() {
 			var user = localStorage.getItem('user');
 
-			if (user) return JSON.parse(user);
+			if (user) return new User(JSON.parse(user));
 			return null;
 		}
 

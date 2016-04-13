@@ -15,34 +15,21 @@
 		}
 
 		// Salva perfil do usuario
-		this.save = function() {
+		$scope.save = function() {
+			var user = User.getAuthenticated();
 
-			// Dados necessários
-			var data = {
-				name		 : $scope.create.name,
-				email    : $scope.create.email,
-				password : $scope.create.password
-			};
-
-			// Verifica se o email existe
-			var exists = User.find({ email : $scope.create.email }) || false;
+			user.name      = $scope.user.name;
+			user.email     = $scope.user.email;
+			user.bio       = $scope.user.bio;
+			user.birthDate = $scope.user.birthDate;
+			user.password  = $scope.user.password;
+			user.picture   = $scope.user.picture;
 			
-			// Caso já exista, exibe mensagem de erro
-			if (exists) {
-				// TODO
-				alert('Email já existe!');
+			user.save();
 
-			}
+			User.setAuthenticated(user);
 
-			// Cria o usuário e autentica
-			else {
-				var user = new User(data);
-				user.save();
-
-				User.setAuthenticated(user);
-
-				window.location = 'profile.html';
-			}
+			window.location = 'profile.html';
 		}
 
 	}]);
