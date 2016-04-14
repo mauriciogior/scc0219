@@ -41,17 +41,23 @@
 			</div>
 		</nav>
 		<div ng-controller="PeopleController as people" class="container container-main">
-			<div class="row" ng-repeat="user in users">
+			<div class="row users" ng-repeat="user in users">
 				<div class="col-md-4">
 				</div>
 				<div class="col-md-4">
 					<legend>
 						<img class="picture" src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" />
 						<span>{{ user.name }}</span>
-						<a href="feed.html#/{{ user.id }}">
-							<button class="btn btn-default btn-xs"> Ver postagens </button>
-						</a>
 					</legend>
+					<p><b>Email:</b> {{ user.email }}</p>
+
+					<a href="feed.html#/{{ user.id }}">
+						<button class="btn btn-default btn-xs"> Ver postagens </button>
+					</a>
+
+					<a href="profile.html#/{{ user.id }}">
+						<button class="btn btn-info btn-xs"> Ver perfil </button>
+					</a>
 				</div>
 				<div class="col-md-4">
 				</div>
