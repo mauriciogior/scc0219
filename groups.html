@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8"/>
+		<title>App</title>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="css/all.css" />
+		<script src="js/app.js"></script>
+		<script src="js/model/user.js"></script>
+		<script src="js/model/group.js"></script>
+		<script src="js/controller/navbar.js"></script>
+		<script src="js/controller/group.js"></script>
+		<style>
+			.container-main {
+			    padding-top: 70px;
+			}
+		</style>
+	</head>
+	<body>
+		<nav ng-controller="NavbarController as navbar" class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">SCC0219</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
+						<ul class="nav navbar-nav">
+							<li><a href="feed.html">Postagens</a></li> 
+							<li class="active"><a href="groups.html">Grupos</a></li> 
+							<li><a href="friends.html">Amigos</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="profile.html">Perfil</a></li>
+							<li><a href="#" ng-click="navbar.logout()">Logout</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div ng-controller="GroupController as group" class="container container-main">
+			<div class="row">
+				<div class="col-md-6">
+							<h1 align="center">Meus Grupos</h1>
+					<div class="row"  ng-repeat="g in groups">
+						<div class="col-md-12">
+							<h2 style="margin: 0px">{{ g.name }}</h2>
+							Membros :<p ng-repeat="membros in g.users"> Membros: {{ membros }} </p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h1 align="center">Criar Grupo</h1>
+					<form>
+						<div class="form-group">
+							<label for="create.name">Nome do grupo</label>
+							<input class="form-control" id="create.name" type="text" ng-model="create.name" placeholder="Nome">
+						</div>
+						<button class="btn btn-default" ng-click="save()">Criar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

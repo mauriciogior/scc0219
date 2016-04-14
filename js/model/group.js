@@ -41,7 +41,7 @@
 			var equals = false;
 
 			for (var i in groups) {
-				if (groups.onwer.email == user.email) {
+				if (groups[i].owner.email == user.email) {
 					equals = true;
 				} else {
 					for (var j in groups[i].users) {
