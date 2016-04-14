@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'Group'
-	app.factory('Group', [function() {  
+	app.factory('Group', [function(User) {  
 
 		// Modelo do grupo
 		function Group(data) {
@@ -28,6 +28,7 @@
 			delete: function() {
 				Group.delete(this);
 			}
+
 		};
 
 		// Métodos estáticos
@@ -61,6 +62,56 @@
 			return found;
 		}
 
+
+		Group.addUser = function(user, group) {
+			var json = localStorage.getItem('groups') || '[]';
+			var groups = [];
+			group.users.push(user);
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == group.id) groups.push(group);
+				else groups.push(new Group(json[i]));
+			}
+
+			localStorage.setItem('groups', angular.toJson(groups));
+		}
+
+		Group.isInGroup = function(user, group) {
+			if(group.owner.id == user.id)
+				return true
+			for(var i in group.users) {
+					if(group.users[i].id == user.id)
+						return true;
+			}
+			return false;
+		}
+
+		Group.removeUser = function(user, group) {
+			var newData = {
+				id 		 : group.id,
+				name	 : group.name,
+				users 	 : [],
+				owner    : group.owner
+			};
+			for(var i in group.users) {
+				if(group.users[i].id != user.id)
+					newData.users.push(group.users[i]);
+			}
+			var newRemovedGroup = new Group(newData)
+
+			var json = localStorage.getItem('groups') || '[]';
+			var groups = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == group.id) groups.push(newRemovedGroup);
+				else groups.push(json[i]);
+			}
+
+			localStorage.setItem('groups', angular.toJson(groups));
+		}
+
 		// Remove um grupo
 		Group.delete = function(group) {
 			var json = localStorage.getItem('groups') || '[]';
@@ -69,7 +120,7 @@
 
 			for (var i in json) {
 				if (json[i].id == group.id) continue;
-				groups.push(new Post(json[i]));
+				groups.push(new Group(json[i]));
 			}
 
 			localStorage.setItem('groups', JSON.stringify(groups));

@@ -39,6 +39,10 @@
 				for (var i in groups) groups[i].delete();
 
 				User.delete(this);
+			},
+
+			belongsTo: function(group) {
+				return Group.isInGroup(this, group);
 			}
 
 		};

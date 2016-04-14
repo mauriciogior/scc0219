@@ -10,33 +10,23 @@
 		$scope.user = User.getAuthenticated();
 		$scope.groups = Group.findMyGroups($scope.user);
 		$scope.users = User.all();
-		// $scope.groups = Group.all();
 
 		// Redireciona para a página de autenticação
 		if (!$scope.user) {
 			window.location = 'index.html';
 		}
 
-		$scope.addUser = function(groupId) {
-			var user = document.getElementById(groupId);
-		}
-
-		$scope.changeSelected = function(mySelect) {
-		    alert(mySelect);
-		}
-		//Verifica se usuarios esta no grupo
-		// $scope.isInGroup = function(user) {
-		// 	return true;
-		// }
-
 		// Salva novo grupo do usuario
 		$scope.save = function() {
-
+			var newUsers = [];
+			for(var i in $scope.addUsers) {
+				newUsers.push(User.findById($scope.addUsers[i]));
+			}
 			// Dados necessários
 			var data = {
 				id 		 : 'g_' + Math.floor(Date.now() / 1000),
 				name	 : $scope.create.name,
-				users 	 : [],
+				users 	 : newUsers,
 				owner    : $scope.user
 			};
 
@@ -46,12 +36,40 @@
 				window.location = 'groups.html';
 		}
 
-		//Deleta grupo
-		$scope.delete = function(group) {
-			group.save();
+		$scope.addUser = function(g) {
+			var selectId = "s-" + g.id;
+			var mySelect = document.getElementById(selectId);
+
+			if(mySelect.selectedIndex == -1) return;
+
+			var userId = mySelect.options[mySelect.selectedIndex].value;
+			var user = User.findById(userId);
+
+			if(!Group.isInGroup(user, g))
+				Group.addUser(user, g);
+			else alert("Este usuário já pertence ao grupo");
+		}
+
+		$scope.allUsersInGroup = function(g) {
+			return(g.users.length + 1 == $scope.users.length);
+		}
+
+		$scope.removeUser = function(user, group) {
+			Group.removeUser(user, group);
 
 			$scope.groups = Group.findMyGroups($scope.user);
 		}
+
+		//Deleta grupo
+		$scope.delete = function(group) {
+			Group.delete(group);
+
+			$scope.groups = Group.findMyGroups($scope.user);
+		}
+
+	}]);
+
+	app.controller('addUsersController', ['$scope', 'User', 'Group', function($scope, User, Group) {
 
 	}]);
 
