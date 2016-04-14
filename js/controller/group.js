@@ -8,20 +8,33 @@
 	app.controller('GroupController', ['$scope', 'User', 'Group', function($scope, User, Group) {
 
 		$scope.user = User.getAuthenticated();
-		$scope.groups = Group.all();
+		$scope.groups = Group.findMyGroups($scope.user);
+		$scope.users = User.all();
+		// $scope.groups = Group.all();
 
 		// Redireciona para a página de autenticação
 		if (!$scope.user) {
 			window.location = 'index.html';
 		}
 
-		this.group = Group.findMyGroups($scope.user);
+		$scope.addUser = function(groupId) {
+			var user = document.getElementById(groupId);
+		}
+
+		$scope.changeSelected = function(mySelect) {
+		    alert(mySelect);
+		}
+		//Verifica se usuarios esta no grupo
+		// $scope.isInGroup = function(user) {
+		// 	return true;
+		// }
 
 		// Salva novo grupo do usuario
 		$scope.save = function() {
 
 			// Dados necessários
 			var data = {
+				id 		 : 'g_' + Math.floor(Date.now() / 1000),
 				name	 : $scope.create.name,
 				users 	 : [],
 				owner    : $scope.user
@@ -32,6 +45,14 @@
 
 				window.location = 'groups.html';
 		}
+
+		//Deleta grupo
+		$scope.delete = function(group) {
+			group.save();
+
+			$scope.groups = Group.findMyGroups($scope.user);
+		}
+
 	}]);
 
 })(window.angular);

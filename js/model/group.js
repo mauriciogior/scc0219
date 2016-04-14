@@ -28,7 +28,6 @@
 			delete: function() {
 				Group.delete(this);
 			}
-
 		};
 
 		// Métodos estáticos
