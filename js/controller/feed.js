@@ -56,6 +56,12 @@
 			$scope.create.text = '';
 		}
 
+		$scope.delete = function(post) {
+			post.delete();
+
+			$scope.posts = Post.findByEmail($scope.user.email);
+		}
+
 	}]);
 
 })(window.angular);

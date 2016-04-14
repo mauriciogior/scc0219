@@ -66,7 +66,7 @@
 
 				User.setAuthenticated(user);
 
-				window.location = 'profile.html';
+				//window.location = 'profile.html';
 			}
 		}
 

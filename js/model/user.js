@@ -21,6 +21,12 @@
 
 			save: function() {
 				var users = User.all();
+				var user = User.findById(this.id);
+
+				if (user) {
+					users.splice(users.indexOf(user), 1);
+				}
+				
 				users.push(this);
 				localStorage.setItem('users', JSON.stringify(users));
 			},
@@ -105,14 +111,14 @@
 
 		// Define o usuário autenticado na sessão
 		User.setAuthenticated = function(user) {
-			localStorage.setItem('user', user ? JSON.stringify(user) : '');
+			localStorage.setItem('userId', user ? user.id : '');
 		}
 
 		// Retorna o usuário autenticado na sessão
 		User.getAuthenticated = function() {
-			var user = localStorage.getItem('user');
+			var userId = localStorage.getItem('userId');
 
-			if (user && user != '') return new User(JSON.parse(user));
+			if (userId && userId != '') return new User(User.findById(userId));
 			return null;
 		}
 

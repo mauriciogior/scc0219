@@ -61,7 +61,7 @@
 				</div>
 				<div class="col-md-4">
 					<legend>{{ post.user.name }}
-						<button class="btn btn-danger btn-xs" ng-show="user.email == authUser.email">
+						<button class="btn btn-danger btn-xs" ng-show="user.email == authUser.email" ng-click="delete(post)">
 							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 							Remover
 						</button>

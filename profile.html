@@ -45,14 +45,15 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="row">
-						<img class="profile-picture" ng-src="{{ user.picture }}" />
+						<img class="profile-picture" ng-src="{{ user.picture }}" ng-show="user.id == authUser.id" />
+						<img class="profile-picture" src="{{ user.picture }}" ng-show="user.id != authUser.id" />
 					</div>
-					<div class="row">
+					<div class="row" ng-show="user.id == authUser.id">
 						<input type="file" ng-model="user.picture" accept="image/*" ng-change="save()" app-filereader />
 					</div>
 				</div>
 				<div class="col-md-6">
-					<form>
+					<form ng-show="user.id == authUser.id">
 						<div class="form-group">
 							<label for="user.id">Seu id</label>
 							<input class="form-control" type="text" ng-model="user.id" placeholder="Id" disabled>
@@ -80,6 +81,14 @@
 						<button class="btn btn-default" ng-click="save()">Salvar</button>
 						<button class="btn btn-danger" ng-click="delete()">Deletar Usuário</button>
 					</form>
+
+					<div ng-show="user.id != authUser.id">
+						<p>Id: {{ user.id }}</p>
+						<p>Nome: {{ user.name }}</p>
+						<p>Email: {{ user.email }}</p>
+						<p>Descrição: {{ user.bio }}</p>
+						<p>Data de nascimento: {{ user.birthDate }}</p>
+					</div>
 				</div>
 				<div class="col-md-2">
 				</div>

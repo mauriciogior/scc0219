@@ -5,43 +5,57 @@
 	var app = angular.module('app');
 
 	// Cria o controlador de autenticação
-	app.controller('ProfileController', ['$scope', 'User', function($scope, User) {
+	app.controller('ProfileController', ['$scope', '$location', 'User', function($scope, $location, User) {
 
-		$scope.user = User.getAuthenticated();
+		$scope.authUser = User.getAuthenticated();
 
 		// Redireciona para a página de autenticação
-		if (!$scope.user) {
+		if (!$scope.authUser) {
 			window.location = 'index.html';
 		}
 
-		// Salva perfil do usuario
-		$scope.save = function() {
-			var user = User.getAuthenticated();
+		// Verifica o hash
+		var location = $location.url() || '/me';
+		$location.url(location);
 
-			user.name      = $scope.user.name;
-			user.email     = $scope.user.email;
-			user.bio       = $scope.user.bio;
-			user.birthDate = $scope.user.birthDate;
-			user.password  = $scope.user.password;
-			user.picture   = $scope.user.picture;
+		// Usuario atual
+		if (location == '/me') {
+			$scope.user = $scope.authUser;
 
-			user.save();
+			// Salva perfil do usuario
+			$scope.save = function() {
+				var user = User.getAuthenticated();
 
-			User.setAuthenticated(user);
+				user.id        = $scope.user.id;
+				user.name      = $scope.user.name;
+				user.email     = $scope.user.email;
+				user.bio       = $scope.user.bio;
+				user.birthDate = $scope.user.birthDate;
+				user.password  = $scope.user.password;
+				user.picture   = $scope.user.picture;
 
-			window.location = 'profile.html';
+				user.save();
+
+				User.setAuthenticated(user);
+
+				//window.location = 'profile.html';
+			}
+
+			// Salva perfil do usuario
+			$scope.delete = function() {
+				var user = User.getAuthenticated();
+				user.delete();
+
+				User.setAuthenticated(null);
+
+				window.location = 'index.html';
+			}
+
+		} else {
+			var userId = location.slice(1, location.length);
+			$scope.user = User.findById(userId);
+			console.log($scope.user);
 		}
-
-		// Salva perfil do usuario
-		$scope.delete = function() {
-			var user = User.getAuthenticated();
-			user.delete();
-
-			User.setAuthenticated(null);
-
-			window.location = 'index.html';
-		}
-
 	}]);
 
 })(window.angular);
