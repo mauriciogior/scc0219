@@ -23,6 +23,10 @@
 				var posts = Post.all();
 				posts.push(this);
 				localStorage.setItem('posts', JSON.stringify(posts));
+			},
+
+			delete: function() {
+				Post.delete(this);
 			}
 
 		};
@@ -107,6 +111,20 @@
 			}
 
 			return found;
+		}
+
+		// Remove um post
+		Post.delete = function(post) {
+			var json = localStorage.getItem('posts') || '[]';
+			var posts = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == post.id) continue;
+				posts.push(new Post(json[i]));
+			}
+
+			localStorage.setItem('posts', JSON.stringify(posts));
 		}
 
 		return Post;

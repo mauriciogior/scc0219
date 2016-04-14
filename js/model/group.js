@@ -23,6 +23,10 @@
 				var groups = Group.all();
 				groups.push(this);
 				localStorage.setItem('groups', JSON.stringify(groups));
+			},
+
+			delete: function() {
+				Group.delete(this);
 			}
 
 		};
@@ -56,6 +60,20 @@
 			}
 
 			return found;
+		}
+
+		// Remove um grupo
+		Group.delete = function(group) {
+			var json = localStorage.getItem('groups') || '[]';
+			var groups = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == group.id) continue;
+				groups.push(new Post(json[i]));
+			}
+
+			localStorage.setItem('groups', JSON.stringify(groups));
 		}
 
 		return Group;

@@ -26,6 +26,12 @@
 			},
 
 			delete: function() {
+				var posts  = Post.findByEmail(this.email);
+				var groups = Group.findByEmail(this.email);
+
+				for (var i in posts) posts[i].delete();
+				for (var i in groups) groups[i].delete();
+
 				User.delete(this);
 			}
 
