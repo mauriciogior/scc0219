@@ -15,6 +15,8 @@
 		<script src="js/app.js"></script>
 		<script src="js/generic/ngfilereader.js"></script>
 		<script src="js/model/user.js"></script>
+		<script src="js/model/post.js"></script>
+		<script src="js/model/group.js"></script>
 		<script src="js/controller/navbar.js"></script>
 		<script src="js/controller/profile.js"></script>
 	</head>
@@ -72,6 +74,7 @@
 							<input class="form-control" type="password" ng-model="user.password" placeholder="Senha">
 						</div>
 						<button class="btn btn-default" ng-click="save()">Salvar</button>
+						<button class="btn btn-danger" ng-click="delete()">Deletar Usuário</button>
 					</form>
 				</div>
 				<div class="col-md-2">

@@ -24,12 +24,22 @@
 			user.birthDate = $scope.user.birthDate;
 			user.password  = $scope.user.password;
 			user.picture   = $scope.user.picture;
-			
+
 			user.save();
 
 			User.setAuthenticated(user);
 
 			window.location = 'profile.html';
+		}
+
+		// Salva perfil do usuario
+		$scope.delete = function() {
+			var user = User.getAuthenticated();
+			user.delete();
+
+			User.setAuthenticated(null);
+
+			window.location = 'index.html';
 		}
 
 	}]);

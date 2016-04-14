@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'User'
-	app.factory('User', [function() {  
+	app.factory('User', ['Post', 'Group', function(Post, Group) {  
 
 		// Modelo do usuário
 		function User(data) {
@@ -23,6 +23,10 @@
 				var users = User.all();
 				users.push(this);
 				localStorage.setItem('users', JSON.stringify(users));
+			},
+
+			delete: function() {
+				User.delete(this);
 			}
 
 		};
@@ -68,16 +72,30 @@
 			return null;
 		}
 
+		// Remove um usuário
+		User.delete = function(user) {
+			var json = localStorage.getItem('users') || '[]';
+			var users = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].email == user.email) continue;
+				users.push(new User(json[i]));
+			}
+
+			localStorage.setItem('users', JSON.stringify(users));
+		}
+
 		// Define o usuário autenticado na sessão
 		User.setAuthenticated = function(user) {
-			localStorage.setItem('user', user ? JSON.stringify(user) : null);
+			localStorage.setItem('user', user ? JSON.stringify(user) : '');
 		}
 
 		// Retorna o usuário autenticado na sessão
 		User.getAuthenticated = function() {
 			var user = localStorage.getItem('user');
 
-			if (user) return new User(JSON.parse(user));
+			if (user && user != '') return new User(JSON.parse(user));
 			return null;
 		}
 
