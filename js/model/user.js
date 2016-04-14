@@ -27,7 +27,7 @@
 
 			delete: function() {
 				var posts  = Post.findByEmail(this.email);
-				var groups = Group.findByEmail(this.email);
+				var groups = [];//Group.findByEmail(this.email);
 
 				for (var i in posts) posts[i].delete();
 				for (var i in groups) groups[i].delete();
@@ -73,6 +73,17 @@
 				}
 
 				if (equals) return users[i];
+			}
+
+			return null;
+		}
+
+		// Procura por um determinado usuário via id
+		User.findById = function(id) {
+			var users = User.all();
+
+			for (var i in users) {
+				if (users[i].id == id) return users[i];
 			}
 
 			return null;

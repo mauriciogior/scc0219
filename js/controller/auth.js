@@ -43,6 +43,7 @@
 
 			// Dados necessários
 			var data = {
+				id       : 'u_' + Math.floor(Date.now() / 1000),
 				name		 : $scope.create.name,
 				email    : $scope.create.email,
 				password : $scope.create.password

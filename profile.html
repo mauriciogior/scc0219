@@ -31,7 +31,7 @@
 						<ul class="nav navbar-nav">
 							<li><a href="feed.html">Postagens</a></li> 
 							<li><a href="groups.html">Grupos</a></li> 
-							<li><a href="friends.html">Amigos</a></li>
+							<li><a href="people.html">Pessoas</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="active"><a href="profile.html">Perfil</a></li>
@@ -54,7 +54,11 @@
 				<div class="col-md-6">
 					<form>
 						<div class="form-group">
-							<label for="create.name">Seu nome</label>
+							<label for="user.id">Seu id</label>
+							<input class="form-control" type="text" ng-model="user.id" placeholder="Id" disabled>
+						</div>
+						<div class="form-group">
+							<label for="user.name">Seu nome</label>
 							<input class="form-control" type="text" ng-model="user.name" placeholder="Nome">
 						</div>
 						<div class="form-group">
