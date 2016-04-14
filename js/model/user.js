@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'User'
-	app.factory('User', [function() {  
+	app.factory('User', ['Post', 'Group', function(Post, Group) {  
 
 		// Modelo do usuário
 		function User(data) {
@@ -21,8 +21,24 @@
 
 			save: function() {
 				var users = User.all();
+				var user = User.findById(this.id);
+
+				if (user) {
+					users.splice(users.indexOf(user), 1);
+				}
+				
 				users.push(this);
 				localStorage.setItem('users', JSON.stringify(users));
+			},
+
+			delete: function() {
+				var posts  = Post.findByEmail(this.email);
+				var groups = [];//Group.findByEmail(this.email);
+
+				for (var i in posts) posts[i].delete();
+				for (var i in groups) groups[i].delete();
+
+				User.delete(this);
 			}
 
 		};
@@ -31,7 +47,14 @@
 		// Retorna todos os usuários
 		User.all = function() {
 			var json = localStorage.getItem('users') || '[]';
-			return JSON.parse(json);
+			var users = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				users.push(new User(json[i]));
+			}
+
+			return users;
 		}
 
 		// Procura por um determinado usuário
@@ -61,16 +84,41 @@
 			return null;
 		}
 
+		// Procura por um determinado usuário via id
+		User.findById = function(id) {
+			var users = User.all();
+
+			for (var i in users) {
+				if (users[i].id == id) return users[i];
+			}
+
+			return null;
+		}
+
+		// Remove um usuário
+		User.delete = function(user) {
+			var json = localStorage.getItem('users') || '[]';
+			var users = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].email == user.email) continue;
+				users.push(new User(json[i]));
+			}
+
+			localStorage.setItem('users', JSON.stringify(users));
+		}
+
 		// Define o usuário autenticado na sessão
 		User.setAuthenticated = function(user) {
-			localStorage.setItem('user', user ? JSON.stringify(user) : null);
+			localStorage.setItem('userId', user ? user.id : '');
 		}
 
 		// Retorna o usuário autenticado na sessão
 		User.getAuthenticated = function() {
-			var user = localStorage.getItem('user');
+			var userId = localStorage.getItem('userId');
 
-			if (user) return JSON.parse(user);
+			if (userId && userId != '') return new User(User.findById(userId));
 			return null;
 		}
 
