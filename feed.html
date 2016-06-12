@@ -61,12 +61,25 @@
 				</div>
 				<div class="col-md-4">
 					<legend>{{ post.user.name }}
+						<button class="btn btn-success btn-xs" ng-show="user.id == authUser.id" ng-click="openEdit(post)">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							Editar
+						</button>
 						<button class="btn btn-danger btn-xs" ng-show="user.id == authUser.id" ng-click="delete(post)">
 							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 							Remover
 						</button>
 					</legend>
-					<p>{{ post.text }}</p>
+					<p ng-show="vOpenEdit != post.id">{{ post.text }}</p>
+					<div class="input-group" ng-show="vOpenEdit == post.id">
+						<input type="text" class="form-control"  id="{{ post.id }}" value="{{ post.text }}">
+						<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="edit(post)">
+							Editar
+						</button>
+						<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="cancelEdit(post)">
+							Cancelar
+						</button>
+					</div>
 				</div>
 				<div class="col-md-4">
 				</div>

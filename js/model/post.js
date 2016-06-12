@@ -113,6 +113,21 @@
 			return found;
 		}
 
+		Post.edit = function(post, newText) {
+			var json = localStorage.getItem('posts') || '[]';
+			var posts = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == post.id) { 
+					json[i].text = newText;
+				}
+				posts.push(new Post(json[i]));
+			}
+
+			localStorage.setItem('posts', JSON.stringify(posts));
+		}
+
 		// Remove um post
 		Post.delete = function(post) {
 			var json = localStorage.getItem('posts') || '[]';

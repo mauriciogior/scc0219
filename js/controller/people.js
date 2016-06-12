@@ -17,6 +17,11 @@
 
 		$scope.users = User.all();
 
+		this.searchPeople = function() {
+			$scope.key_aux = $scope.key;
+			$scope.peoplefound = User.findAll({name : $scope.key});
+		}
+
 	}]);
 
 })(window.angular);

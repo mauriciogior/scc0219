@@ -62,6 +62,31 @@
 			$scope.posts = Post.findByEmail($scope.user.email);
 		}
 
+		$scope.openEdit = function(post) {
+			$scope.vOpenEdit = post.id;
+		}
+
+		$scope.cancelEdit = function(post) {
+			$scope.vOpenEdit = null;
+		}
+
+		$scope.edit = function(post) {
+			var newText = document.getElementById(post.id);
+			if(newText.value=='') { 
+				var r = confirm("Essa ação irá deletar seu post. Aperte OK para prosseguir.");
+				if(r) $scope.delete(post);
+				else {
+					$scope.cancelEdit(post);
+					window.location = 'feed.html';
+					return;
+				}
+			}
+
+			Post.edit(post, newText.value);
+			$scope.cancelEdit(post);
+			window.location = 'feed.html';
+		}
+
 	}]);
 
 })(window.angular);

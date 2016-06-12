@@ -88,6 +88,33 @@
 			return null;
 		}
 
+		// Procura por todos usuarios que contem as chave
+		// Ex: User.find({name : 'Mauricio'})
+		User.findAll = function(user) {
+			var users = User.all();
+			var equals = false;
+			var usersFound = [];
+
+			for (var i in users) {
+				equals = false;
+
+				for (var key in user) {
+					if (!user.hasOwnProperty(key)) continue;
+					if (!users[i].hasOwnProperty(key)) continue;
+
+					if (users[i][key].toLowerCase() != user[key].toLowerCase()) {
+						equals = false;
+					} else {
+						equals = true;
+					}
+				}
+
+				if (equals) usersFound.push(users[i]);;
+			}
+
+			return usersFound;
+		}
+
 		// Procura por um determinado usuário via id
 		User.findById = function(id) {
 			var users = User.all();
