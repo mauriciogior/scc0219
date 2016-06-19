@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "authors": [
+    "Patrick Scuracchio",
+    "Mauricio Giordano"
+  ],
+  "description": "projeto2",
+  "main": "app.js",
+  "keywords": [
+    "projeto2"
+  ],
+  "license": "USP",
+  "homepage": "homepage.ejs",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "angular-route": "*",
+    "bootstrap": "*",
+    "jquery": "*"
+  }
+}

@@ -46,7 +46,10 @@
 				id       : 'u_' + Math.floor(Date.now() / 1000),
 				name		 : $scope.create.name,
 				email    : $scope.create.email,
-				password : $scope.create.password
+				password : $scope.create.password,
+				followers: [],
+				following: [], 
+				groups: []
 			};
 
 			// Verifica se o email existe

@@ -30,10 +30,12 @@
 				owner    : $scope.user
 			};
 
+			$scope.user.addGroup(data.id);
+
 			var group = new Group(data);
 				group.save();
 
-				window.location = 'groups.html';
+			window.location = 'groups.html';
 		}
 
 		$scope.addUser = function(g) {

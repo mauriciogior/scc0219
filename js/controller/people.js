@@ -22,6 +22,10 @@
 			$scope.peoplefound = User.findAll({name : $scope.key});
 		}
 
+		this.follow = function(user) {
+			alert(user.name);
+		}
+
 	}]);
 
 })(window.angular);

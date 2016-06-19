@@ -112,6 +112,18 @@
 			localStorage.setItem('groups', angular.toJson(groups));
 		}
 
+		Group.findOwnerByEmail = function(email) {
+			var groups = Group.all();
+			var found = [];
+			var equals = false;
+
+			for (var i in groups) {
+				if (groups[i].owner.email == email) found.push(posts[i]);
+			}
+
+			return found;
+		}
+
 		// Remove um grupo
 		Group.delete = function(group) {
 			var json = localStorage.getItem('groups') || '[]';

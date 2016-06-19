@@ -33,7 +33,7 @@
 
 			delete: function() {
 				var posts  = Post.findByEmail(this.email);
-				var groups = [];//Group.findByEmail(this.email);
+				var groups = Group.findOwnerByEmail(this.email);
 
 				for (var i in posts) posts[i].delete();
 				for (var i in groups) groups[i].delete();
@@ -43,8 +43,13 @@
 
 			belongsTo: function(group) {
 				return Group.isInGroup(this, group);
-			}
+			},
 
+			addGroup: function(groupId) {
+				alert(groupId);
+				alert(this.name);
+				User.addGroup(this, groupId);
+			}
 		};
 
 		// Métodos estáticos
@@ -124,6 +129,21 @@
 			}
 
 			return null;
+		}
+
+		User.addGroup = function(user, groupId) {
+			var json = localStorage.getItem('users') || '[]';
+			var users = [];
+			json = JSON.parse(json);
+
+			for (var i in json) {
+				if (json[i].id == user.id) {
+					json[i].groups.push(groupId);
+				}
+				users.push(new User(json[i]));
+			}
+
+			localStorage.setItem('users', JSON.stringify(users));
 		}
 
 		// Remove um usuário

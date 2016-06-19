@@ -58,7 +58,7 @@
 									
 									</div>
 									<div class="col-md-6" align="right">
-										<button class="btn btn-danger btn-xs" ng-show="user.email == g.owner.email" ng-click="delete(g)">
+										<button class="btn btn-danger btn-xs" ng-show="user.id == g.owner.id" ng-click="delete(g)">
 										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										Remover
 										</button>
@@ -85,16 +85,16 @@
 								<a href="feed.html#/{{ members.id }}">
 									<button class="btn btn-default btn-xs"> Ver postagens </button>
 								</a>
-								<button class="btn btn-danger btn-xs" ng-show="user.email == g.owner.email" ng-click="removeUser(members, g)">
+								<button class="btn btn-danger btn-xs" ng-show="user.id == g.owner.id" ng-click="removeUser(members, g)">
 										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										Remover Usuário
 								</button>
 							</span>
 								<h5 ng-if="allUsersInGroup(g)">Esse grupo contém todos usuários cadastrados no Sistema</h5	>
-								<select class="form-control" id="s-{{g.id}}" ng-if="!allUsersInGroup(g)"style="margin-bottom:2px">
+								<select class="form-control" id="s-{{g.id}}" ng-show="user.id == g.owner.id" ng-if="!allUsersInGroup(g)"style="margin-bottom:2px">
 									<option value="{{user.id}}" ng-if="!user.belongsTo(g)" ng-repeat="user in users">{{ user.name }}</option>
 								</select>
-								<a href="#" ng-if="!allUsersInGroup(g)">
+								<a href="#" ng-if="!allUsersInGroup(g)" ng-show="user.id == g.owner.id">
 									<button class="btn btn-default btn-xs" ng-click="addUser(g)"> Adicionar Usuário </button>
 								</a>
 						</div>

@@ -1,0 +1,34 @@
+<div class="container" ng-controller="AuthController as auth">
+      <div class="row">
+        <div class="col-md-6">
+          <form>
+            <div class="form-group">
+              <label for="login.email">Seu email</label>
+              <input class="form-control" id="login.email" type="text" ng-model="login.email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="login.password">Sua senha</label>
+              <input class="form-control" id="login.password" type="password" ng-model="login.password" placeholder="Senha">
+            </div>
+            <button class="btn btn-default" ng-click="auth.verify()">Login</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <form>
+            <div class="form-group">
+              <label for="create.name">Seu nome</label>
+              <input class="form-control" id="create.name" type="text" ng-model="create.name" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <label for="create.email">Seu email</label>
+              <input class="form-control" id="create.email" type="text" ng-model="create.email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="create.password">Sua senha</label>
+              <input class="form-control" id="create.password" type="password" ng-model="create.password" placeholder="Senha">
+            </div>
+            <button class="btn btn-default" ng-click="auth.create()">Criar</button>
+          </form>
+        </div>
+      </div>
+    </div>
