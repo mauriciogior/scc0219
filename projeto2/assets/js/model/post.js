@@ -23,7 +23,7 @@
 
 				$http({
 					method: 'PUT',
-					url: '/post/' + this.id,
+					url: '/api/post/' + this.id,
 					data: this
 				}).then(function successCallback(response) {
 					success(response.data);
@@ -37,7 +37,7 @@
 
 				$http({
 					method: 'DELETE',
-					url: '/post/' + this.id
+					url: '/api/post/' + this.id
 				}).then(function successCallback(response) {
 					success(response.data);
 				}, function errorCallback(response) {
@@ -52,7 +52,7 @@
 		Post.create = function(post, user, success, failure) {
 			$http({
 				method: 'POST',
-				url: '/user/' + user.id + '/post',
+				url: '/api/user/' + user.id + '/post',
 				data: post
 			}).then(function successCallback(response) {
 				success(response.data);
@@ -106,7 +106,7 @@
 		Post.findByUserId = function(uid, success, failure) {
 			$http({
 				method: 'GET',
-				url: '/user/' + uid + '/feed'
+				url: '/api/user/' + uid + '/feed'
 			}).then(function successCallback(response) {
 				success(response.data);
 			}, function errorCallback(response) {

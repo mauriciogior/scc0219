@@ -38,20 +38,27 @@ module.exports.routes = {
   'get /login':   'UserController.view_login',
   'get /feed':    'PostController.view_feed',
   'get /people':  'UserController.view_people',
+  'get /groups':  'GroupController.view_groups',
 
   /** APIs **/
-  'get /user':        'UserController.api_get',
-  'post /user':       'UserController.api_create',
-  'get /user/:id':    'UserController.api_find_by_id',
-  'put /user':        'UserController.api_edit',
-  'delete /user':     'UserController.api_delete',
-  'post /user/login': 'UserController.api_login',
+  'get /api/user':        'UserController.api_get',
+  'post /api/user':       'UserController.api_create',
+  'get /api/user/:id':    'UserController.api_find_by_id',
+  'put /api/user':        'UserController.api_edit',
+  'delete /api/user':     'UserController.api_delete',
+  'post /api/user/login': 'UserController.api_login',
 
-  'get /user/:uid/feed':  'PostController.api_feed',
-  'post /user/:uid/post': 'PostController.api_create',
-  'put /post/:id':        'PostController.api_edit',
-  'delete /post/:id':     'PostController.api_delete'
+  'get /api/user/:uid/feed':  'PostController.api_feed',
+  'post /api/user/:uid/post': 'PostController.api_create',
+  'put /api/post/:id':        'PostController.api_edit',
+  'delete /api/post/:id':     'PostController.api_delete',
 
+  'get /api/groups':                   'GroupController.api_get',
+  'post /api/group':                   'GroupController.api_create',
+  'get /api/user/:uid/groups':         'GroupController.api_user_groups',
+  'put /api/group/:gid/users/:uid':    'GroupController.api_add_user',
+  'delete /api/group/:gid/users/:uid': 'GroupController.api_remove_user',
+  'delete /api/group/:gid':            'GroupController.api_remove_group'
 
   /***************************************************************************
   *                                                                          *

@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'Group'
-	app.factory('Group', [function(User) {  
+	app.factory('Group', ['$http', function($http, User) {  
 
 		// Modelo do grupo
 		function Group(data) {
@@ -25,56 +25,77 @@
 				localStorage.setItem('groups', JSON.stringify(groups));
 			},
 
-			delete: function() {
-				Group.delete(this);
+			delete: function(success, failure) {
+				$http({
+					method: 'DELETE',
+					url: '/api/group/' + this.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+			},
+
+			addUser: function(user, success, failure) {
+				$http({
+					method: 'PUT',
+					url: '/api/group/' + this.id + '/users/' + user.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+			},
+
+			removeUser: function(user, success, failure) {
+				$http({
+					method: 'DELETE',
+					url: '/api/group/' + this.id + '/users/' + user.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
 			}
 
 		};
 
 		// Métodos estáticos
 		// Retorna todas as grupos
-		Group.all = function() {
-			var json = localStorage.getItem('groups') || '[]';
-			return JSON.parse(json);
+		Group.all = function(success, failure) {
+			$http({
+				method: 'GET',
+				url: '/api/groups'
+			}).then(function successCallback(response) {
+				if (success) success(response.data);
+			}, function errorCallback(response) {
+				if (failure) failure(response);
+			});
 		}
 
 		// Procura por grupos do usuário
-		Group.findMyGroups = function(user) {
-			var groups = Group.all();
-			var found = [];
-			var equals = false;
-
-			for (var i in groups) {
-				if (groups[i].owner.email == user.email) {
-					equals = true;
-				} else {
-					for (var j in groups[i].users) {
-						if (groups[i].users[j].email == user.email) {
-							equals = true;
-							break;
-						}
-					}
-				}
-
-				if (equals) found.push(groups[i]);
-			}
-
-			return found;
+		Group.findMyGroups = function(user, success, failure) {
+			$http({
+				method: 'GET',
+				url: '/api/user/' + user.id + '/groups'
+			}).then(function successCallback(response) {
+				if (success) success(response.data);
+			}, function errorCallback(response) {
+				if (failure) failure(response);
+			});
 		}
 
-
-		Group.addUser = function(user, group) {
-			var json = localStorage.getItem('groups') || '[]';
-			var groups = [];
-			group.users.push(user);
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				if (json[i].id == group.id) groups.push(group);
-				else groups.push(new Group(json[i]));
-			}
-
-			localStorage.setItem('groups', angular.toJson(groups));
+		// Cria um grupo novo
+		Group.create = function(group, success, failure) {
+			$http({
+				method: 'POST',
+				url: '/api/group',
+				data: group
+			}).then(function successCallback(response) {
+				if (success) success(response.data);
+			}, function errorCallback(response) {
+				if (failure) failure(response);
+			});
 		}
 
 		Group.isInGroup = function(user, group) {
@@ -87,31 +108,6 @@
 			return false;
 		}
 
-		Group.removeUser = function(user, group) {
-			var newData = {
-				id 		 : group.id,
-				name	 : group.name,
-				users 	 : [],
-				owner    : group.owner
-			};
-			for(var i in group.users) {
-				if(group.users[i].id != user.id)
-					newData.users.push(group.users[i]);
-			}
-			var newRemovedGroup = new Group(newData)
-
-			var json = localStorage.getItem('groups') || '[]';
-			var groups = [];
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				if (json[i].id == group.id) groups.push(newRemovedGroup);
-				else groups.push(json[i]);
-			}
-
-			localStorage.setItem('groups', angular.toJson(groups));
-		}
-
 		Group.findOwnerByEmail = function(email) {
 			var groups = Group.all();
 			var found = [];
@@ -122,20 +118,6 @@
 			}
 
 			return found;
-		}
-
-		// Remove um grupo
-		Group.delete = function(group) {
-			var json = localStorage.getItem('groups') || '[]';
-			var groups = [];
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				if (json[i].id == group.id) continue;
-				groups.push(new Group(json[i]));
-			}
-
-			localStorage.setItem('groups', JSON.stringify(groups));
 		}
 
 		return Group;

@@ -23,7 +23,7 @@
 
 				$http({
 					method: 'PUT',
-					url: '/user',
+					url: '/api/user',
 					data: this
 				}).then(function successCallback(response) {
 					// Salva usuario
@@ -42,7 +42,7 @@
 
 				$http({
 					method: 'DELETE',
-					url: '/user',
+					url: '/api/user',
 					data: this
 				}).then(function successCallback(response) {
 					// logout
@@ -60,12 +60,6 @@
 
 			belongsTo: function(group) {
 				return Group.isInGroup(this, group);
-			},
-
-			addGroup: function(groupId) {
-				alert(groupId);
-				alert(this.name);
-				User.addGroup(this, groupId);
 			}
 		};
 
@@ -74,11 +68,11 @@
 		User.all = function(success, failure) {
 			$http({
 				method: 'GET',
-				url: '/user'
+				url: '/api/user'
 			}).then(function successCallback(response) {
-				success(response.data);
+				if (success) success(response.data);
 			}, function errorCallback(response) {
-				failure(response);
+				if (failure) failure(response);
 			});
 		}
 
@@ -86,12 +80,12 @@
 		User.login = function(user, success, failure) {
 			$http({
 				method: 'POST',
-				url: '/user/login',
+				url: '/api/user/login',
 				data: user
 			}).then(function successCallback(response) {
-				success(response);
+				if (success) success(response);
 			}, function errorCallback(response) {
-				failure(response);
+				if (failure) failure(response);
 			});
 		}
 
@@ -99,12 +93,12 @@
 		User.create = function(user, success, failure) {
 			$http({
 				method: 'POST',
-				url: '/user',
+				url: '/api/user',
 				data: user
 			}).then(function successCallback(response) {
-				success(response);
+				if (success) success(response);
 			}, function errorCallback(response) {
-				failure(response);
+				if (failure) failure(response);
 			});
 		}
 
@@ -166,27 +160,12 @@
 		User.findById = function(id, success, failure) {
 			$http({
 				method: 'GET',
-				url: '/user/' + id
+				url: '/api/user/' + id
 			}).then(function successCallback(response) {
-				success(response.data);
+				if (success) success(response.data);
 			}, function errorCallback(response) {
-				failure(response);
+				if (failure) failure(response);
 			});
-		}
-
-		User.addGroup = function(user, groupId) {
-			var json = localStorage.getItem('users') || '[]';
-			var users = [];
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				if (json[i].id == user.id) {
-					json[i].groups.push(groupId);
-				}
-				users.push(new User(json[i]));
-			}
-
-			localStorage.setItem('users', JSON.stringify(users));
 		}
 
 		// Define o usuário autenticado na sessão

@@ -5,68 +5,82 @@
 	var app = angular.module('app');
 
 	// Cria o controlador de grupo
-	app.controller('GroupController', ['$scope', 'User', 'Group', function($scope, User, Group) {
+	app.controller('GroupController', ['$http', '$scope', 'User', 'Group',
+	  function($http, $scope, User, Group) {
 
 		$scope.user = User.getAuthenticated();
-		$scope.groups = Group.findMyGroups($scope.user);
-		$scope.users = User.all();
+		
+		Group.findMyGroups($scope.user, function success(groups) {
+			$scope.groups = groups;
+		});
+
+		User.all(function success(users) {
+			$scope.users = users;
+		});
 
 		// Redireciona para a página de autenticação
 		if (!$scope.user) {
-			window.location = 'index.html';
+			window.location = '/login';
 		}
 
 		// Salva novo grupo do usuario
 		$scope.save = function() {
 			var newUsers = [];
+
 			for(var i in $scope.addUsers) {
-				newUsers.push(User.findById($scope.addUsers[i]));
+				newUsers.push($scope.addUsers[i]);
 			}
+
 			// Dados necessários
 			var data = {
-				id 		 : 'g_' + Math.floor(Date.now() / 1000),
 				name	 : $scope.create.name,
-				users 	 : newUsers,
-				owner    : $scope.user
+				users  : newUsers,
+				owner  : $scope.user
 			};
 
-			$scope.user.addGroup(data.id);
-
-			var group = new Group(data);
-				group.save();
-
-			window.location = 'groups.html';
+			Group.create(data, function success(group) {
+				window.location = '/groups';
+			});
 		}
 
-		$scope.addUser = function(g) {
-			var selectId = "s-" + g.id;
+		$scope.addUser = function(group) {
+			var selectId = "s-" + group.id;
 			var mySelect = document.getElementById(selectId);
 
-			if(mySelect.selectedIndex == -1) return;
+			if (mySelect.selectedIndex == -1) return;
 
 			var userId = mySelect.options[mySelect.selectedIndex].value;
-			var user = User.findById(userId);
-
-			if(!Group.isInGroup(user, g))
-				Group.addUser(user, g);
-			else alert("Este usuário já pertence ao grupo");
+			group = new Group(group);
+			
+			group.addUser({ id : userId }, function success(group) {
+				Group.findMyGroups($scope.user, function success(groups) {
+					$scope.groups = groups;
+				});
+			});
 		}
 
 		$scope.allUsersInGroup = function(g) {
-			return(g.users.length + 1 == $scope.users.length);
+			return g.users.length + 1 == $scope.users.length;
 		}
 
 		$scope.removeUser = function(user, group) {
-			Group.removeUser(user, group);
+			group = new Group(group);
 
-			$scope.groups = Group.findMyGroups($scope.user);
+			group.removeUser(user, function success(group) {
+				Group.findMyGroups($scope.user, function success(groups) {
+					$scope.groups = groups;
+				});
+			});
 		}
 
 		//Deleta grupo
 		$scope.delete = function(group) {
-			Group.delete(group);
-
-			$scope.groups = Group.findMyGroups($scope.user);
+			group = new Group(group);
+			group.delete(function success(groups) {
+				Group.findMyGroups($scope.user, function success(groups) {
+					$scope.groups = groups;
+				});
+			});
 		}
 
 	}]);
