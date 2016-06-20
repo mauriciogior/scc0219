@@ -1,0 +1,113 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="css/all.css" />
+<link rel="stylesheet" href="css/people.css" />
+<link rel="stylesheet" href="css/group.css" />
+<script src="js/app.js"></script>
+<script src="js/model/user.js"></script>
+<script src="js/model/post.js"></script>
+<script src="js/model/group.js"></script>
+<script src="js/controller/navbar.js"></script>
+<script src="js/controller/group.js"></script>
+<style>
+	.container-main {
+	    padding-top: 70px;
+	}
+</style>
+
+<nav ng-controller="NavbarController as navbar" class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SCC0219</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
+				<ul class="nav navbar-nav">
+					<li><a href="feed.html">Postagens</a></li> 
+					<li class="active"><a href="groups.html">Grupos</a></li> 
+					<li><a href="people.html">Pessoas</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="profile.html">Perfil</a></li>
+					<li><a href="#" ng-click="navbar.logout()">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+<div ng-controller="GroupController as group" class="container container-main">
+	<div class="row">
+		<div class="col-md-6">
+					<h1 align="center">Meus Grupos</h1>
+			<div class="row"  ng-repeat="g in groups" style="margin-bottom:3q0px">
+				<div class="col-md-12">
+					<legend style="margin: 0px">
+						<div class="row">
+							<div class="col-md-6">{{ g.name }}
+							
+							</div>
+							<div class="col-md-6" align="right">
+								<button class="btn btn-danger btn-xs" ng-show="user.id == g.owner.id" ng-click="delete(g)">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								Remover
+								</button>
+							</div>
+						</div>
+					</legend>
+					<span class="row">
+						<img class="picture" src="{{ g.owner.picture || 'http://goo.gl/xZnyXV' }}" />
+						<span>
+							<a href="profile.html#/{{ g.owner.id }}" class="profile-link">
+								{{ g.owner.name }} <b>(Admin)</b>
+							</a>
+						</span>
+						<a href="feed.html#/{{ g.owner.id }}">
+							<button class="btn btn-default btn-xs"> Ver postagens </button>
+						</a>
+					</span>
+					<span class="row" ng-repeat="members in g.users">
+						<img class="picture" src="{{ members.picture || 'http://goo.gl/xZnyXV' }}" />
+						<span>
+							<a href="profile.html#/{{ members.id }}" class="profile-link">{{ members.name }}
+							</a>
+						</span>
+						<a href="feed.html#/{{ members.id }}">
+							<button class="btn btn-default btn-xs"> Ver postagens </button>
+						</a>
+						<button class="btn btn-danger btn-xs" ng-show="user.id == g.owner.id" ng-click="removeUser(members, g)">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								Remover Usuário
+						</button>
+					</span>
+						<h5 ng-if="allUsersInGroup(g)">Esse grupo contém todos usuários cadastrados no Sistema</h5	>
+						<select class="form-control" id="s-{{g.id}}" ng-show="user.id == g.owner.id" ng-if="!allUsersInGroup(g)"style="margin-bottom:2px">
+							<option value="{{user.id}}" ng-if="!user.belongsTo(g)" ng-repeat="user in users">{{ user.name }}</option>
+						</select>
+						<a href="#" ng-if="!allUsersInGroup(g)" ng-show="user.id == g.owner.id">
+							<button class="btn btn-default btn-xs" ng-click="addUser(g)"> Adicionar Usuário </button>
+						</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h1 align="center">Criar Grupo</h1>
+			<form>
+				<div class="form-group">
+					<label for="create.name">Nome do grupo</label>
+					<input class="form-control" id="create.name" type="text" ng-model="create.name" placeholder="Nome">
+				</div>
+				<div class="form-group">
+					<label for="addUsers">Adicionar usuários</label>
+					<select multiple name="addUsers" class="form-control" type="text" ng-model="addUsers">
+						<option value="{{usr.id}}" ng-if="usr.id!=user.id" ng-repeat="usr in users">{{ usr.name }}</option>
+					</select>
+				</div>
+				<center><button class="btn btn-default" ng-click="save()">Criar</button><center>
+			</form>
+		</div>
+	</div>
+</div>

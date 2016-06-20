@@ -23,8 +23,17 @@ module.exports = {
 			type: 'string',
 			unique: true
 		},
+		bio: {
+			type: 'string'
+		},
+		birthDate: {
+			type: 'string'
+		},
 		password: {
 			type: 'string',
+		},
+		picture: {
+			type: 'string'
 		},
 		posts: {
 			colletion: 'Post',

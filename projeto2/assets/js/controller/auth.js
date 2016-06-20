@@ -27,7 +27,7 @@
 			if (user) {
 				User.setAuthenticated(user);
 
-				window.location = 'profile.html';
+				window.location = '/';
 			}
 
 			// Caso o contrário, exibe mensagem de erro
@@ -68,7 +68,7 @@
 
 				User.setAuthenticated(user);
 
-				window.location = 'profile.html';
+				window.location = '/';
 			}
 		}
 

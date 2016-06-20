@@ -1,0 +1,87 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src="js/app.js"></script>
+<script src="js/generic/ngfilereader.js"></script>
+<script src="js/model/user.js"></script>
+<script src="js/model/post.js"></script>
+<script src="js/model/group.js"></script>
+<script src="js/controller/navbar.js"></script>
+<script src="js/controller/profile.js"></script>
+
+<nav ng-controller="NavbarController as navbar" class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SCC0219</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
+				<ul class="nav navbar-nav">
+					<li><a href="feed.html">Postagens</a></li> 
+					<li><a href="groups.html">Grupos</a></li> 
+					<li><a href="people.html">Pessoas</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="profile.html">Perfil</a></li>
+					<li><a href="#" ng-click="navbar.logout()">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+<div ng-controller="ProfileController as profile" class="container container-main">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="row">
+				<img class="profile-picture" ng-src="{{ user.picture }}" ng-show="user.id == authUser.id" />
+				<img class="profile-picture" src="{{ user.picture }}" ng-show="user.id != authUser.id" />
+			</div>
+			<div class="row" ng-show="user.id == authUser.id">
+				<input type="file" ng-model="user.picture" accept="image/*" ng-change="save()" app-filereader />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<form ng-show="user.id == authUser.id">
+				<div class="form-group">
+					<label for="user.id">Seu id</label>
+					<input class="form-control" type="text" ng-model="user.id" placeholder="Id" disabled>
+				</div>
+				<div class="form-group">
+					<label for="user.name">Seu nome</label>
+					<input class="form-control" type="text" ng-model="user.name" placeholder="Nome">
+				</div>
+				<div class="form-group">
+					<label for="user.email">Seu email</label>
+					<input class="form-control" type="text" ng-model="user.email" placeholder="Email">
+				</div>
+				<div class="form-group">
+					<label for="user.bio">Sua descrição</label>
+					<input class="form-control" type="text" ng-model="user.bio" placeholder="Descrição">
+				</div>
+				<div class="form-group">
+					<label for="user.birthDate">Sua data de nascimento</label>
+					<input class="form-control" type="text" ng-model="user.birthDate" placeholder="Data de nascimento">
+				</div>
+				<div class="form-group">
+					<label for="user.password">Sua senha</label>
+					<input class="form-control" type="password" ng-model="user.password" placeholder="Senha">
+				</div>
+				<button class="btn btn-default" ng-click="save()">Salvar</button>
+				<button class="btn btn-danger" ng-click="delete()">Deletar Usuário</button>
+			</form>
+
+			<div ng-show="user.id != authUser.id">
+				<p>Id: {{ user.id }}</p>
+				<p>Nome: {{ user.name }}</p>
+				<p>Email: {{ user.email }}</p>
+				<p>Descrição: {{ user.bio }}</p>
+				<p>Data de nascimento: {{ user.birthDate }}</p>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</div>
