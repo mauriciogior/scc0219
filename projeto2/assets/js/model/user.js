@@ -71,16 +71,15 @@
 
 		// Métodos estáticos
 		// Retorna todos os usuários
-		User.all = function() {
-			var json = localStorage.getItem('users') || '[]';
-			var users = [];
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				users.push(new User(json[i]));
-			}
-
-			return users;
+		User.all = function(success, failure) {
+			$http({
+				method: 'GET',
+				url: '/user'
+			}).then(function successCallback(response) {
+				success(response.data);
+			}, function errorCallback(response) {
+				failure(response);
+			});
 		}
 
 		// Autentica um usuario
@@ -164,14 +163,15 @@
 		}
 
 		// Procura por um determinado usuário via id
-		User.findById = function(id) {
-			var users = User.all();
-
-			for (var i in users) {
-				if (users[i].id == id) return users[i];
-			}
-
-			return null;
+		User.findById = function(id, success, failure) {
+			$http({
+				method: 'GET',
+				url: '/user/' + id
+			}).then(function successCallback(response) {
+				success(response.data);
+			}, function errorCallback(response) {
+				failure(response);
+			});
 		}
 
 		User.addGroup = function(user, groupId) {

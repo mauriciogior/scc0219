@@ -29,6 +29,10 @@ module.exports = {
 		picture: {
 			type: 'string'
 		},
+		posts: {
+			collection: 'Post',
+			via: 'owner'
+		},
 		followers: {
 			collection: 'User',
 			via: 'following'

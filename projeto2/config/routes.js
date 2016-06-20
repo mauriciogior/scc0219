@@ -32,12 +32,25 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /':      'UserController.profile',
-  'get /login': 'UserController.login',
-  'post /user': 'UserController.user_create',
-  'put /user': 'UserController.user_edit',
-  'delete /user': 'UserController.user_delete',
-  'post /user/login': 'UserController.user_login'
+  /** Views **/
+  'get /':        'UserController.view_profile',
+  'get /profile': 'UserController.view_profile',
+  'get /login':   'UserController.view_login',
+  'get /feed':    'PostController.view_feed',
+  'get /people':  'UserController.view_people',
+
+  /** APIs **/
+  'get /user':        'UserController.api_get',
+  'post /user':       'UserController.api_create',
+  'get /user/:id':    'UserController.api_find_by_id',
+  'put /user':        'UserController.api_edit',
+  'delete /user':     'UserController.api_delete',
+  'post /user/login': 'UserController.api_login',
+
+  'get /user/:uid/feed':  'PostController.api_feed',
+  'post /user/:uid/post': 'PostController.api_create',
+  'put /post/:id':        'PostController.api_edit',
+  'delete /post/:id':     'PostController.api_delete'
 
 
   /***************************************************************************

@@ -5,14 +5,14 @@
 	var app = angular.module('app');
 
 	// Cria o controlador de postagem
-	app.controller('FeedController', ['$scope', '$location', 'User', 'Post',
-	function($scope, $location, User, Post) {
+	app.controller('FeedController', ['$http', '$scope', '$location', 'User', 'Post',
+	function($http, $scope, $location, User, Post) {
 
 		$scope.authUser = User.getAuthenticated();
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {
-			window.location = 'index.html';
+			window.location = '/login';
 			return;
 		}
 
@@ -23,19 +23,23 @@
 		// Usuario atual
 		if (location == '/me') {
 			$scope.user = $scope.authUser;
-			$scope.posts = Post.findByEmail($scope.user.email);
+
+			Post.findByUserId($scope.user.id, function success(posts) {
+				$scope.posts = posts;
+			}, function failure() { });
 
 		// Algum outro usuario
 		} else {
 			var userId = location.slice(1, location.length);
-			$scope.user = User.findById(userId);
-
-			if (!$scope.user) {
-				window.location = 'index.html';
-				return;
-			}
-
-			$scope.posts = Post.findByEmail($scope.user.email);
+			User.findById(userId, function success(user) {
+				$scope.user = user;
+			}, function failure() {
+				window.location = '/feed';
+			});
+			
+			Post.findByUserId(userId, function success(posts) {
+				$scope.posts = posts;
+			}, function failure() { });
 		}
 
 		$scope.create = function() {
@@ -44,22 +48,31 @@
 
 			// Dados necessários
 			var data = {
-				id   : 'p_' + Math.floor(Date.now() / 1000),
-				text : $scope.create.text,
-				user : $scope.user
+				text : $scope.create.text
 			};
 
-			var post = new Post(data);
-			post.save();
+			Post.create(data, $scope.user, function success(post) {
+				console.log(post);
+				$scope.posts.push(post);
+				$scope.create.text = '';
+			}, function failure() {
+				$scope.create.text = '';
+			});
 
-			$scope.posts = Post.findByEmail($scope.user.email);
-			$scope.create.text = '';
 		}
 
 		$scope.delete = function(post) {
-			post.delete();
+			var _post = new Post(post);
+			_post.delete(function success() {
+				var _old = $scope.posts;
+				$scope.posts = [];
 
-			$scope.posts = Post.findByEmail($scope.user.email);
+				for (var i in _old) {
+					if (_old[i].id != _post.id) $scope.posts.push(_old[i]);
+				}
+			}, function failure() {
+
+			});
 		}
 
 		$scope.openEdit = function(post) {
@@ -72,19 +85,24 @@
 
 		$scope.edit = function(post) {
 			var newText = document.getElementById(post.id);
-			if(newText.value=='') { 
+			if (newText.value=='') { 
 				var r = confirm("Essa ação irá deletar seu post. Aperte OK para prosseguir.");
-				if(r) $scope.delete(post);
+				if (r) $scope.delete(post);
 				else {
 					$scope.cancelEdit(post);
-					window.location = 'feed.html';
+					window.location = '/feed';
 					return;
 				}
 			}
 
-			Post.edit(post, newText.value);
-			$scope.cancelEdit(post);
-			window.location = 'feed.html';
+			post.text = newText.value;
+			
+			var _post = new Post(post);
+			_post.save(function success(post) {
+				$scope.cancelEdit(post);
+			}, function failure(res) {
+				$scope.cancelEdit(post);
+			});
 		}
 
 	}]);

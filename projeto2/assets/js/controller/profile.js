@@ -39,7 +39,7 @@
 
 				User.setAuthenticated(user);
 
-				//window.location = 'profile.html';
+				window.location = '/';
 			}
 
 			// Salva perfil do usuario
@@ -54,8 +54,15 @@
 
 		} else {
 			var userId = location.slice(1, location.length);
-			$scope.user = User.findById(userId);
-			console.log($scope.user);
+			
+			User.findById(userId,
+				function success(user) {
+					$scope.user = user;
+				},
+				function failure(user) {
+					window.location = '/';
+				}
+			);
 		}
 	}]);
 

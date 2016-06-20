@@ -7,21 +7,36 @@
 
 module.exports = {
 	
-	login : function(req, res) {
-		return res.view();
+	view_login : function(req, res) {
+		return res.view('user/login');
 	},
 
-	profile : function(req, res) {
-		return res.view();
+	view_profile : function(req, res) {
+		return res.view('user/profile');
+	},
 
-		/*return res.view('backOffice/profile', {
-			user: theUser,
-			corndogs: theUser.corndogCollection
-		});*/
+	view_people : function(req, res) {
+		return res.view('user/people');
+	},
+
+	// Pega todos os usuarios
+	api_get: function(req, res) {
+
+		User
+		.find()
+		.exec(function(err, users) {
+			if (err || !users) {
+				console.log(err);
+				return res.status(400).json({});
+			}
+
+			return res.json(users)
+		});
+
 	},
 
 	// Cria um novo usuario
-	user_create: function(req, res) {
+	api_create: function(req, res) {
 
 		var user = {
 			name: req.body.name,
@@ -42,8 +57,24 @@ module.exports = {
 
 	},
 
+	// Procura por um usuario
+	api_find_by_id: function(req, res) {
+
+		User
+		.findOne({ id : req.params.id })
+		.exec(function(err, user) {
+			if (err || !user) {
+				console.log(err);
+				return res.status(404).json({});
+			}
+
+			return res.json(user)
+		});
+
+	},
+
 	// Altera um usuario
-	user_edit: function(req, res) {
+	api_edit: function(req, res) {
 		var _user;
 
 		User
@@ -74,7 +105,7 @@ module.exports = {
 	},
 
 	// Remove um usuario
-	user_delete: function(req, res) {
+	api_delete: function(req, res) {
 		var _user;
 
 		User
@@ -90,7 +121,7 @@ module.exports = {
 	},
 
 	// Faz login do usuario
-  user_login: function(req, res) {
+  api_login: function(req, res) {
 
   	User
   	.findOne({ email : req.body.email, password : req.body.password })

@@ -11,11 +11,13 @@
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {
-			window.location = 'index.html';
+			window.location = '/';
 			return;
 		}
 
-		$scope.users = User.all();
+		User.all(function success(users) {
+			$scope.users = users;
+		});
 
 		this.searchPeople = function() {
 			$scope.key_aux = $scope.key;

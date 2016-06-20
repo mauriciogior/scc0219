@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'Post'
-	app.factory('Post', [function() {  
+	app.factory('Post', ['$http', function($http) {  
 
 		// Modelo da postagem
 		function Post(data) {
@@ -19,17 +19,47 @@
 				angular.extend(this, data);
 			},
 
-			save: function() {
-				var posts = Post.all();
-				posts.push(this);
-				localStorage.setItem('posts', JSON.stringify(posts));
+			save: function(success, failure) {
+
+				$http({
+					method: 'PUT',
+					url: '/post/' + this.id,
+					data: this
+				}).then(function successCallback(response) {
+					success(response.data);
+				}, function errorCallback(response) {
+					failure(response);
+				});
+
 			},
 
-			delete: function() {
-				Post.delete(this);
+			delete: function(success, failure) {
+
+				$http({
+					method: 'DELETE',
+					url: '/post/' + this.id
+				}).then(function successCallback(response) {
+					success(response.data);
+				}, function errorCallback(response) {
+					failure(response);
+				});
+
 			}
 
 		};
+
+		// Cria um post
+		Post.create = function(post, user, success, failure) {
+			$http({
+				method: 'POST',
+				url: '/user/' + user.id + '/post',
+				data: post
+			}).then(function successCallback(response) {
+				success(response.data);
+			}, function errorCallback(response) {
+				failure(response);
+			});
+		}
 
 		// Métodos estáticos
 		// Retorna todas as postagens
@@ -73,16 +103,15 @@
 		}
 
 		// Procura por postagens de usuarios
-		Post.findByEmail = function(email) {
-			var posts = Post.all();
-			var found = [];
-			var equals = false;
-
-			for (var i in posts) {
-				if (posts[i].user.email == email) found.push(posts[i]);
-			}
-
-			return found;
+		Post.findByUserId = function(uid, success, failure) {
+			$http({
+				method: 'GET',
+				url: '/user/' + uid + '/feed'
+			}).then(function successCallback(response) {
+				success(response.data);
+			}, function errorCallback(response) {
+				failure(response);
+			});
 		}
 
 		// Procura por postagens
