@@ -8,8 +8,10 @@
 	app.controller('AuthController', ['$scope', 'User', function($scope, User) {
 
 		// Redireciona para a página autenticada
-		if (User.getAuthenticated()) {
-			window.location = 'profile.html';
+		var user = User.getAuthenticated();
+
+		if (user && user.id) {
+			window.location = '/';
 		}
 
 		// Faz login do usuário
@@ -21,20 +23,21 @@
 			};
 
 			// Procura usuário no banco de dados
-			var user = User.find(data) || false;
+			User.login(data,
+				function success(user) {
+					// Se o usuário existir, autentica
+					if (user) {
+						User.setAuthenticated(user.data);
 
-			// Se o usuário existir, autentica
-			if (user) {
-				User.setAuthenticated(user);
-
-				window.location = '/';
-			}
-
-			// Caso o contrário, exibe mensagem de erro
-			else {
-				// TODO
-				alert('Email ou senha incorretos!');
-			}
+						window.location = '/';
+					}
+				},
+				function failure(err) {
+					console.log('err');
+					console.log(err);
+					alert('Email ou senha incorretos!');
+				}
+			);
 		}
 
 		// Faz cadastro do usuário
@@ -42,34 +45,24 @@
 
 			// Dados necessários
 			var data = {
-				id       : 'u_' + Math.floor(Date.now() / 1000),
 				name		 : $scope.create.name,
 				email    : $scope.create.email,
-				password : $scope.create.password,
-				followers: [],
-				following: [], 
-				groups: []
+				password : $scope.create.password
 			};
 
-			// Verifica se o email existe
-			var exists = User.find({ email : $scope.create.email }) || false;
-			
-			// Caso já exista, exibe mensagem de erro
-			if (exists) {
-				// TODO
-				alert('Email já existe!');
+			// Tenta criar um novo usuario na API
+			User.create(data,
+				function success(user) {
+					if (user) {
+						User.setAuthenticated(user.data);
 
-			}
-
-			// Cria o usuário e autentica
-			else {
-				var user = new User(data);
-				user.save();
-
-				User.setAuthenticated(user);
-
-				window.location = '/';
-			}
+						window.location = '/';
+					}
+				},
+				function failure(err) {
+					alert('Email já existe!');
+				}
+			);
 		}
 
 	}]);

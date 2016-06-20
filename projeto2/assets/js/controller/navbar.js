@@ -11,13 +11,13 @@
 
 		// Redireciona para a página de autenticação
 		if (!$scope.user) {
-			window.location = 'index.html';
+			window.location = '/login';
 		}
 
 		// Faz o logout
 		this.logout = function() {
 			User.setAuthenticated(null);
-			window.location = 'index.html';
+			window.location = '/login';
 		}
 		
 	}]);

@@ -8,6 +8,7 @@
 	app.controller('ProfileController', ['$scope', '$location', 'User', function($scope, $location, User) {
 
 		$scope.authUser = User.getAuthenticated();
+		console.log($scope.authUser);
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {

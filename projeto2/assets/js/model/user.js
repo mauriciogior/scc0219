@@ -5,7 +5,7 @@
 	var app = angular.module('app');
 
 	// Cria um service chamado 'User'
-	app.factory('User', ['Post', 'Group', function(Post, Group) {  
+	app.factory('User', ['$http', 'Post', 'Group', function($http, Post, Group) {  
 
 		// Modelo do usuário
 		function User(data) {
@@ -20,25 +20,42 @@
 			},
 
 			save: function() {
-				var users = User.all();
-				var user = User.findById(this.id);
 
-				if (user) {
-					users.splice(users.indexOf(user), 1);
-				}
-				
-				users.push(this);
-				localStorage.setItem('users', JSON.stringify(users));
+				$http({
+					method: 'PUT',
+					url: '/user',
+					data: this
+				}).then(function successCallback(response) {
+					// Salva usuario
+					User.setAuthenticated(response.data);
+
+				}, function errorCallback(response) {
+					// logout
+					User.setAuthenticated(null);
+
+					window.location = '/login';
+				});
+
 			},
 
 			delete: function() {
-				var posts  = Post.findByEmail(this.email);
-				var groups = Group.findOwnerByEmail(this.email);
 
-				for (var i in posts) posts[i].delete();
-				for (var i in groups) groups[i].delete();
+				$http({
+					method: 'DELETE',
+					url: '/user',
+					data: this
+				}).then(function successCallback(response) {
+					// logout
+					User.setAuthenticated(null);
 
-				User.delete(this);
+					window.location = '/login';
+				}, function errorCallback(response) {
+					// logout
+					User.setAuthenticated(null);
+
+					window.location = '/login';
+				});
+
 			},
 
 			belongsTo: function(group) {
@@ -64,6 +81,32 @@
 			}
 
 			return users;
+		}
+
+		// Autentica um usuario
+		User.login = function(user, success, failure) {
+			$http({
+				method: 'POST',
+				url: '/user/login',
+				data: user
+			}).then(function successCallback(response) {
+				success(response);
+			}, function errorCallback(response) {
+				failure(response);
+			});
+		}
+
+		// Cria um usuario
+		User.create = function(user, success, failure) {
+			$http({
+				method: 'POST',
+				url: '/user',
+				data: user
+			}).then(function successCallback(response) {
+				success(response);
+			}, function errorCallback(response) {
+				failure(response);
+			});
 		}
 
 		// Procura por um determinado usuário
@@ -146,31 +189,14 @@
 			localStorage.setItem('users', JSON.stringify(users));
 		}
 
-		// Remove um usuário
-		User.delete = function(user) {
-			var json = localStorage.getItem('users') || '[]';
-			var users = [];
-			json = JSON.parse(json);
-
-			for (var i in json) {
-				if (json[i].email == user.email) continue;
-				users.push(new User(json[i]));
-			}
-
-			localStorage.setItem('users', JSON.stringify(users));
-		}
-
 		// Define o usuário autenticado na sessão
 		User.setAuthenticated = function(user) {
-			localStorage.setItem('userId', user ? user.id : '');
+			localStorage.setItem('user', JSON.stringify(user));
 		}
 
 		// Retorna o usuário autenticado na sessão
 		User.getAuthenticated = function() {
-			var userId = localStorage.getItem('userId');
-
-			if (userId && userId != '') return new User(User.findById(userId));
-			return null;
+			return new User(JSON.parse(localStorage.getItem('user')));
 		}
 
 		return User;

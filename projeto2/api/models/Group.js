@@ -7,13 +7,7 @@
 
 module.exports = {
 
-  	attributes: {
-  		id: {
-			type: 'integer',
-			primaryKey: true,
-			autoincrement: true,
-			unique: true
-		},
+  attributes: {
 		name: {
 			type: 'string',
 			required: true,
@@ -26,6 +20,8 @@ module.exports = {
 		owner: {
 			model: 'User'
 		}
-  	}
+  },
+  
+	autoPK: true
 };
 

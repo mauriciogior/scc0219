@@ -8,12 +8,6 @@
 module.exports = {
 
 	attributes: {
-		id: {
-			type: 'integer',
-			primaryKey: true,
-			autoincrement: true,
-			unique: true
-		},
 		name: {
 			type: 'string',
 			required: true,
@@ -35,10 +29,6 @@ module.exports = {
 		picture: {
 			type: 'string'
 		},
-		posts: {
-			colletion: 'Post',
-			via: 'owner'
-		},
 		followers: {
 			collection: 'User',
 			via: 'following'
@@ -55,6 +45,8 @@ module.exports = {
 			collection: 'Group',
 			via: 'owner'
 		}
-	}
+	},
+
+	autoPK: true
 };
 

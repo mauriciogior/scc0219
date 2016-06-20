@@ -33,7 +33,11 @@ module.exports.routes = {
   ***************************************************************************/
 
   'get /':      'UserController.profile',
-  'get /login': 'UserController.login'
+  'get /login': 'UserController.login',
+  'post /user': 'UserController.user_create',
+  'put /user': 'UserController.user_edit',
+  'delete /user': 'UserController.user_delete',
+  'post /user/login': 'UserController.user_login'
 
 
   /***************************************************************************
