@@ -18,13 +18,24 @@
 
 		$scope.refresh = function() {
 			User.all(function success(users) {
-				$scope.users = users;
+				$scope.peoplefound = [];
+
+				for (var i in users) {
+					$scope.peoplefound.push(new User(users[i]));
+				}
 			});
 		}
 
 		this.searchPeople = function() {
 			$scope.key_aux = $scope.key;
-			$scope.peoplefound = User.findAll({name : $scope.key});
+
+			User.find($scope.key, function success(users) {
+				$scope.peoplefound = [];
+				
+				for (var i in users) {
+					$scope.peoplefound.push(new User(users[i]));
+				}
+			});
 		}
 
 		this.follow = function(user) {
