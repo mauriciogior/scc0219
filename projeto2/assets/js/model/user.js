@@ -58,10 +58,42 @@
 
 			},
 
+			followUser: function(user, success, failure) {
+
+				$http({
+					method: 'PUT',
+					url: '/api/user/' + this.id + '/follow/' + user.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+
+			},
+
+			isFollowing: function(user) {
+				if (user.followers) {
+					for (var i in user.followers) {
+						if (user.followers[i].id == this.id) return true;
+					}
+				} else {
+					for (var i in this.following) {
+						if (this.following[i].id == user.id) return true;
+					}
+				}
+
+				return false;
+			},
+
 			belongsTo: function(group) {
 				return Group.isInGroup(this, group);
 			}
 		};
+
+		User.isFollowing = function(from, to) {
+			from = new User(from);
+			return from.isFollowing(to);
+		}
 
 		// Métodos estáticos
 		// Retorna todos os usuários

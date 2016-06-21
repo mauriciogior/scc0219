@@ -41,12 +41,13 @@ module.exports.routes = {
   'get /groups':  'GroupController.view_groups',
 
   /** APIs **/
-  'get /api/user':        'UserController.api_get',
-  'post /api/user':       'UserController.api_create',
-  'get /api/user/:id':    'UserController.api_find_by_id',
-  'put /api/user':        'UserController.api_edit',
-  'delete /api/user':     'UserController.api_delete',
-  'post /api/user/login': 'UserController.api_login',
+  'get /api/user':                  'UserController.api_get',
+  'post /api/user':                 'UserController.api_create',
+  'get /api/user/:id':              'UserController.api_find_by_id',
+  'put /api/user':                  'UserController.api_edit',
+  'delete /api/user':               'UserController.api_delete',
+  'post /api/user/login':           'UserController.api_login',
+  'put /api/user/:uid/follow/:fid': 'UserController.api_follow',
 
   'get /api/user/:uid/feed':  'PostController.api_feed',
   'post /api/user/:uid/post': 'PostController.api_create',

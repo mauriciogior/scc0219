@@ -8,6 +8,7 @@
 	app.controller('PeopleController', ['$scope', 'User', function($scope, User) {
 
 		$scope.authUser = User.getAuthenticated();
+		$scope.User = User;
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {
@@ -15,9 +16,11 @@
 			return;
 		}
 
-		User.all(function success(users) {
-			$scope.users = users;
-		});
+		$scope.refresh = function() {
+			User.all(function success(users) {
+				$scope.users = users;
+			});
+		}
 
 		this.searchPeople = function() {
 			$scope.key_aux = $scope.key;
@@ -25,8 +28,12 @@
 		}
 
 		this.follow = function(user) {
-			alert(user.name);
+			$scope.authUser.followUser(user, function success() {
+				$scope.refresh();
+			})
 		}
+
+		$scope.refresh();
 
 	}]);
 

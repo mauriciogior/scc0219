@@ -24,6 +24,8 @@ module.exports = {
 
 		User
 		.find()
+		.populate('following')
+		.populate('followers')
 		.exec(function(err, users) {
 			if (err || !users) {
 				console.log(err);
@@ -100,6 +102,30 @@ module.exports = {
 		.catch(function(err) {
 			console.log(err);
 
+			return res.status(401).json({});
+		});
+	},
+
+	// Segue um usuario
+	api_follow: function(req, res) {
+		var _user;
+
+		User
+		.findOne({ id : req.params.uid })
+		.then(function(user) {
+			if (!user) {
+				return res.status(401).json({});
+			} else {
+				user.following.add(req.params.fid);
+				_user = user;
+
+				return user.save();
+			}
+		})
+		.then(function() {
+			return res.json(_user);
+		})
+		.catch(function(err) {
 			return res.status(401).json({});
 		});
 	},

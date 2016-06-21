@@ -89,6 +89,7 @@
 			<legend>
 				<img class="picture" src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" />
 				<span>{{ user.name }}</span> <b ng-show="user.id == authUser.id">(Eu)</b>
+				<i ng-show="User.isFollowing(user, authUser)">*seguidor*</i>
 			</legend>
 			<p><b>Email:</b> {{ user.email }}</p>
 
@@ -101,7 +102,7 @@
 			</a>
 
 			<!-- <a href="feed#/{{ user.id }}"> -->
-				<button class="btn btn-default btn-xs" ng-click="people.follow(user)" ng-show="user.id != authUser.id"> Seguir </button>
+				<button class="btn btn-default btn-xs" ng-click="people.follow(user)" ng-show="user.id != authUser.id && !authUser.isFollowing(user)"> Seguir </button>
 			<!-- </a> -->
 		</div>
 		<div class="col-md-4">
