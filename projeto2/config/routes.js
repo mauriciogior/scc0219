@@ -48,6 +48,7 @@ module.exports.routes = {
   'delete /api/user':               'UserController.api_delete',
   'post /api/user/login':           'UserController.api_login',
   'put /api/user/:uid/follow/:fid': 'UserController.api_follow',
+  'put /api/user/:uid/unfollow/:fid': 'UserController.api_unfollow',
 
   'get /api/user/:uid/feed':  'PostController.api_feed',
   'post /api/user/:uid/post': 'PostController.api_create',

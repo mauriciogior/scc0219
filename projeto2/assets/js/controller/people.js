@@ -33,6 +33,12 @@
 			})
 		}
 
+		this.unfollow = function(user) {
+			$scope.authUser.unfollowUser(user, function success() {
+				$scope.refresh();
+			})
+		}
+
 		$scope.refresh();
 
 	}]);

@@ -71,6 +71,18 @@
 
 			},
 
+			unfollowUser: function(user, success, failure) {
+				$http({
+					method: 'PUT',
+					url: '/api/user/' + this.id + '/unfollow/' + user.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+
+			},
+
 			isFollowing: function(user) {
 				if (user.followers) {
 					for (var i in user.followers) {

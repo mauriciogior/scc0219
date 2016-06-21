@@ -130,6 +130,30 @@ module.exports = {
 		});
 	},
 
+	// Segue um usuario
+	api_unfollow: function(req, res) {
+		var _user;
+
+		User
+		.findOne({ id : req.params.uid })
+		.then(function(user) {
+			if (!user) {
+				return res.status(401).json({});
+			} else {
+				user.following.remove(req.params.fid);
+				_user = user;
+
+				return user.save();
+			}
+		})
+		.then(function() {
+			return res.json(_user);
+		})
+		.catch(function(err) {
+			return res.status(401).json({});
+		});
+	},
+
 	// Remove um usuario
 	api_delete: function(req, res) {
 		var _user;
