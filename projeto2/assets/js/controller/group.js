@@ -72,6 +72,7 @@
 					$scope.groups = groups;
 				});
 			});
+			window.location = '/groups';
 		}
 
 		$scope.allUsersInGroup = function(g) {
@@ -86,6 +87,7 @@
 					$scope.groups = groups;
 				});
 			});
+			window.location = '/groups';
 		}
 
 		//Deleta grupo
@@ -96,6 +98,7 @@
 					$scope.groups = groups;
 				});
 			});
+			window.location = '/groups';
 		}
 
 	}]);
