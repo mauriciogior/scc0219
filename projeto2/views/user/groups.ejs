@@ -41,6 +41,27 @@
 </nav>
 <div ng-controller="GroupController as group" class="container container-main">
 	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<h1 align="center">Criar Grupo</h1>
+			<form>
+				<div class="form-group">
+					<label for="create.name">Nome do grupo</label>
+					<input class="form-control" id="create.name" type="text" ng-model="create.name" placeholder="Nome">
+				</div>
+				<div class="form-group">
+					<label for="addUsers">Adicionar usuários</label>
+					<select multiple name="addUsers" class="form-control" type="text" ng-model="addUsers">
+						<option value="{{usr.id}}" ng-if="usr.id!=user.id" ng-repeat="usr in users">{{ usr.name }}</option>
+					</select>
+				</div>
+				<center><button class="btn btn-default" ng-click="save()">Criar</button><center>
+			</form>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
 		<div class="col-md-6">
 					<h1 align="center">Meus Grupos</h1>
 			<div class="row"  ng-repeat="g in groups" style="margin-bottom:3q0px">
@@ -93,21 +114,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<h1 align="center">Criar Grupo</h1>
-			<form>
-				<div class="form-group">
-					<label for="create.name">Nome do grupo</label>
-					<input class="form-control" id="create.name" type="text" ng-model="create.name" placeholder="Nome">
-				</div>
-				<div class="form-group">
-					<label for="addUsers">Adicionar usuários</label>
-					<select multiple name="addUsers" class="form-control" type="text" ng-model="addUsers">
-						<option value="{{usr.id}}" ng-if="usr.id!=user.id" ng-repeat="usr in users">{{ usr.name }}</option>
-					</select>
-				</div>
-				<center><button class="btn btn-default" ng-click="save()">Criar</button><center>
-			</form>
-		</div>
+		<div class="col-md-3"></div>
 	</div>
 </div>

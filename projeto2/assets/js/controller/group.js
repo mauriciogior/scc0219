@@ -10,8 +10,23 @@
 
 		$scope.user = User.getAuthenticated();
 		
-		Group.findMyGroups($scope.user, function success(groups) {
-			$scope.groups = groups;
+		// Group.findMyGroups($scope.user, function success(groups) {
+		// 	$scope.groups = groups;
+		// });
+
+		Group.all(function success(groups) {
+			var allGroups = []
+			for(var i in groups) {
+				if(groups[i].owner.id == $scope.user.id) {
+					allGroups.push(groups[i]);
+					continue;
+				}
+				for(var j in groups[i].users) {
+					if(groups[i].users[j].id == $scope.user.id)
+						allGroups.push(groups[i]);
+				}
+			}
+			$scope.groups = allGroups;
 		});
 
 		User.all(function success(users) {
