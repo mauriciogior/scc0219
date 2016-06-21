@@ -44,10 +44,11 @@
 
 		$scope.create = function() {
 
-			if ($scope.create.text == '' || !$scope.create.text) return;
+			if ($scope.create.text == '' || !$scope.create.text || $scope.create.title == '' || !$scope.create.title) return;
 
 			// Dados necessários
 			var data = {
+				title: $scope.create.title,
 				text : $scope.create.text
 			};
 
@@ -55,8 +56,10 @@
 				console.log(post);
 				$scope.posts.push(post);
 				$scope.create.text = '';
+				$scope.create.title = '';
 			}, function failure() {
 				$scope.create.text = '';
+				$scope.create.title = '';
 			});
 
 		}
@@ -84,8 +87,9 @@
 		}
 
 		$scope.edit = function(post) {
-			var newText = document.getElementById(post.id);
-			if (newText.value=='') { 
+			var newTitle = document.getElementById("title-" + post.id);
+			var newText = document.getElementById("text-" + post.id);
+			if (newText.value=='' || newTitle.value=='') { 
 				var r = confirm("Essa ação irá deletar seu post. Aperte OK para prosseguir.");
 				if (r) $scope.delete(post);
 				else {
@@ -95,6 +99,7 @@
 				}
 			}
 
+			post.title = newTitle.value;
 			post.text = newText.value;
 			
 			var _post = new Post(post);

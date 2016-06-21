@@ -8,6 +8,11 @@
 module.exports = {
 
  	attributes: {
+		title: {
+			type: 'string',
+			required: true,
+			notNull: true
+		},
 		text: {
 			type: 'string',
 			required: true,
