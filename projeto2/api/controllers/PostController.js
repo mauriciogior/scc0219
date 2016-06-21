@@ -39,6 +39,7 @@ module.exports = {
 			if (!post) {
 				return res.status(401).json({});
 			} else {
+				if (req.body.title) post.title  = req.body.title;
 				if (req.body.text) post.text  = req.body.text;
 
 				_post = post;
