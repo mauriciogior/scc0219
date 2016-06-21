@@ -75,6 +75,21 @@ module.exports = {
 	api_feed: function(req, res) {
 		Post
 		.find({ owner : req.params.uid })
+		.populate('owner')
+		.exec(function(err, posts) {
+			if (err || !posts) {
+				console.log(err);
+				return res.status(400).json({});
+			}
+			return res.json(posts)
+		});
+
+	},
+
+	// Carrega os posts do usuario e dos usuarios que esta seguindo
+	api_feed_following: function(req, res) {
+		Post
+		.find({ owner : req.params.uid })
 		.exec(function(err, posts) {
 			if (err || !posts) {
 				console.log(err);

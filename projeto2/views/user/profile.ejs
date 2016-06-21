@@ -123,8 +123,7 @@
 			    {{ post.text }}
 			    
 			  </div>
-			  <p align="right"><i><font size="1">Publicado por: {{ post.owner }} em {{ post.createdAt }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</font></i></p>
-			  <!-- <div class="panel-footer" align="right"><i>Publicado por: {{ post.owner }} em {{ post.createdAt }}</i></div> -->
+			  <p align="right"><i><font size="1">Publicado por <b>{{ post.owner.name }}</b> em {{ post.createdAt }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</font></i></p>
 			</div>
 			<p align="center">
 				<button class="btn btn-success btn-xs" ng-show="user.id == authUser.id" ng-click="openEdit(post)">
@@ -152,37 +151,10 @@
 					Cancelar
 				</button>
 			</div>
-			<!-- <textarea readonly="true">{{ post.text }}
-			<p align="right"><i>Publicado por: {{ post.owner }} em {{ post.createdAt }}</i></p></textarea>
-			<p ng-show="vOpenEdit != post.id">{{ post.text }}</p> 
-			<p align="right"><i>Publicado por: {{ post.owner }} em {{ post.createdAt }}</i></p> -->
 		</div>
 		<div class="col-md-2">
 		</div>
 	</div>
-	<!-- <div class="row" >
-		<div class="col-md-2">
-		</div>
-		<div class="col-md-8">
-			<div class="input-group" ng-show="vOpenEdit == post.id">
-				<div class="form-group">
-					<input type="text" class="form-control" id="title-{{ post.id }}" value="{{ post.title }}">
-				</div>
-				<div class="form-group">
-					<textarea rows = "4" class="form-control" id="text-{{ post.id }}">{{ post.text }}</textarea>
-				</div>
-				<div class="form-group" align="center">
-				<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="edit(post)">
-					Editar
-				</button>
-				<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="cancelEdit(post)">
-					Cancelar
-				</button>
-			</div>
-		</div>
-		<div class="col-md-2">
-		</div>
-	</div> -->
 	<div class="row" ng-show="!posts.length">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">

@@ -59,7 +59,6 @@
 			},
 
 			followUser: function(user, success, failure) {
-
 				$http({
 					method: 'PUT',
 					url: '/api/user/' + this.id + '/follow/' + user.id

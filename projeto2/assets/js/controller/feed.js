@@ -16,30 +16,57 @@
 			return;
 		}
 
-		// Verifica o hash
-		var location = $location.url() || '/me';
-		$location.url(location);
+		if(window.location.pathname == '/feed') {
+			User.all(function sucess(user) {
+				var users = [];
+				for(var i in user) {
+					for(var j in user[i].followers) {
+						if(user[i].followers[j].id == $scope.authUser.id)
+							users.push(user[i]);
+					}
+				}
+				$scope.users = users;
 
-		// Usuario atual
-		if (location == '/me') {
-			$scope.user = $scope.authUser;
+				var allPosts = [];
+				for(var i in $scope.users) {
+					Post.findByUserId($scope.users[i].id, function success(posts) {
+						for(var j in posts) {
+							allPosts.push(posts[j]);
+						}
+					}, function failure() { });
+				}
+				$scope.posts = allPosts;
 
-			Post.findByUserId($scope.user.id, function success(posts) {
-				$scope.posts = posts;
-			}, function failure() { });
-
-		// Algum outro usuario
-		} else {
-			var userId = location.slice(1, location.length);
-			User.findById(userId, function success(user) {
-				$scope.user = user;
 			}, function failure() {
-				window.location = '/feed';
+				window.location = '/profile';
 			});
-			
-			Post.findByUserId(userId, function success(posts) {
-				$scope.posts = posts;
-			}, function failure() { });
+
+		} else {
+			// Verifica o hash
+			var location = $location.url() || '/me';
+			$location.url(location);
+
+			// Usuario atual
+			if (location == '/me') {
+				$scope.user = $scope.authUser;
+
+				Post.findByUserId($scope.user.id, function success(posts) {
+					$scope.posts = posts;
+				}, function failure() { });
+
+			// Algum outro usuario
+			} else {
+				var userId = location.slice(1, location.length);
+				User.findById(userId, function success(user) {
+					$scope.user = user;
+				}, function failure() {
+					window.location = '/feed';
+				});
+				
+				Post.findByUserId(userId, function success(posts) {
+					$scope.posts = posts;
+				}, function failure() { });
+			}
 		}
 
 		$scope.create = function() {
