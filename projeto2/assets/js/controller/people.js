@@ -24,7 +24,13 @@
 
 		this.searchPeople = function() {
 			$scope.key_aux = $scope.key;
-			$scope.peoplefound = User.findAll({name : $scope.key});
+			var usersFound;
+			User.all(function sucess(user) {
+				$scope.peoplefound = User.findAll({name : $scope.key}, user);
+			}, function failure() {
+				window.location = '/people';
+			});
+			
 		}
 
 		this.follow = function(user) {
