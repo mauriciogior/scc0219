@@ -9,6 +9,7 @@
 	function($http, $scope, $location, User, Post) {
 
 		$scope.authUser = User.getAuthenticated();
+		$scope.Post = Post;
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {
@@ -111,6 +112,27 @@
 
 		$scope.cancelEdit = function(post) {
 			$scope.vOpenEdit = null;
+		}
+
+		$scope.like = function(post) {
+			var _post = new Post(post);
+			_post.like($scope.authUser, function success(p) {
+				window.location = '/feed';
+			});
+		}
+
+		$scope.dislike = function(post) {
+			var _post = new Post(post);
+			_post.dislike($scope.authUser, function success(p) {
+				window.location = '/feed';
+			});
+		}
+
+		$scope.share = function(post) {
+			var _post = new Post(post);
+			_post.share($scope.authUser, function success(p) {
+				window.location = '/feed';
+			});
 		}
 
 		$scope.edit = function(post) {

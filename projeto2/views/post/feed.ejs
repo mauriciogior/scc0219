@@ -50,15 +50,15 @@
 				<p align="right"><i><font size="1" style="padding-right: 20px">{{ post.likes.length }} Likes, {{ post.dislikes.length }} Dislikes, {{ post.shares.length }} Shares.</font></i></p>
 			</div>
 			<div>
-				<button class="btn btn-primary btn-xs btn-feed">
+				<button class="btn btn-primary btn-xs btn-feed" ng-show="!Post.hasLiked(post, authUser)" ng-click="like(post)">
 					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					Like
 				</button>
-				<button class="btn btn-danger btn-xs btn-feed">
+				<button class="btn btn-danger btn-xs btn-feed" ng-show="!Post.hasDisliked(post, authUser)" ng-click="dislike(post)">
 					<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 					Dislike
 				</button>
-				<button class="btn btn-success btn-xs btn-feed">
+				<button class="btn btn-success btn-xs btn-feed" ng-show="!Post.hasShared(post, authUser)" ng-click="share(post)">
 					<span class="glyphicon glyphicon glyphicon-share" aria-hidden="true"></span>
 					Share
 				</button>

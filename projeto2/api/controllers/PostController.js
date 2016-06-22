@@ -134,17 +134,13 @@ module.exports = {
 		.findOne({ id : req.params.pid })
 		.exec(function(err, post) {
 			if (err || !post) {
+				console.log(err);
 				return res.status(400).json({});
 			}
 
 			post.likes.add(req.params.uid);
 
-			post.save(function(err, post) {
-				if (err || !post) {
-					console.log(err);
-					return res.status(400).json({});
-				}
-
+			post.save(function(err) {
 				return res.json(post)
 			});
 		});
@@ -164,12 +160,7 @@ module.exports = {
 
 			post.dislikes.add(req.params.uid);
 
-			post.save(function(err, post) {
-				if (err || !post) {
-					console.log(err);
-					return res.status(400).json({});
-				}
-
+			post.save(function(err) {
 				return res.json(post)
 			});
 		});

@@ -44,9 +44,66 @@
 					failure(response);
 				});
 
+			},
+
+			like: function(user, success, failure) {
+				$http({
+					method: 'PUT',
+					url: '/api/user/' + user.id + '/like/' + this.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+			},
+
+			dislike: function(user, success, failure) {
+				$http({
+					method: 'PUT',
+					url: '/api/user/' + user.id + '/dislike/' + this.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
+			},
+
+			share: function(user, success, failure) {
+				$http({
+					method: 'PUT',
+					url: '/api/user/' + user.id + '/share/' + this.id
+				}).then(function successCallback(response) {
+					if (success) success(response.data);
+				}, function errorCallback(response) {
+					if (failure) failure(response);
+				});
 			}
 
 		};
+
+		Post.hasLiked = function(post, user) {
+			for (var i in post.likes) {
+				if (post.likes[i].id = user.id) return true;
+			}
+
+			return false;
+		}
+
+		Post.hasDisliked = function(post, user) {
+			for (var i in post.dislikes) {
+				if (post.dislikes[i].id = user.id) return true;
+			}
+
+			return false;
+		}
+
+		Post.hasShared = function(post, user) {
+			for (var i in post.shares) {
+				if (post.shares[i].id = user.id) return true;
+			}
+
+			return false;
+		}
 
 		// Cria um post
 		Post.create = function(post, user, success, failure) {
