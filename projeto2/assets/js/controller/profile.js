@@ -34,12 +34,10 @@
 				user.password  = $scope.user.password;
 				user.picture   = 'image_u' + user.id;
 
-				user.storeImage($scope.user.picture);
+				if ($scope.user.picture)
+					user.storeImage($scope.user.picture);
+				
 				user.save();
-
-				User.setAuthenticated(user);
-
-				window.location = '/';
 			}
 
 			// Salva perfil do usuario

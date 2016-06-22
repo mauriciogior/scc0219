@@ -195,6 +195,13 @@ module.exports = {
 			return res.json(user);
   	});
 
+  },
+
+  // Importa dados de usuarios
+  api_import: function(req, res) {
+		var users = JSON.parse(req.body.users);
+
+
   }
 
 };

@@ -29,6 +29,7 @@
 					// Salva usuario
 					User.setAuthenticated(response.data);
 
+					window.location = '/';
 				}, function errorCallback(response) {
 					// logout
 					User.setAuthenticated(null);

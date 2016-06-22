@@ -43,4 +43,54 @@
 			</form>
 		</div>
 	</div>
+	<h3>Importação de dados</h3>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>Usuarios:</h4>
+			<textarea class="form-control" rows="15">
+[{
+	name : "Mauricio",
+	email : "mauricio.c.giordano@gmail.com",
+	password : "mauricio"
+}, {
+	name : "Patrick",
+	email : "patrick@gmail.com",
+	password : "patrick"
+}, {
+	name : "Manuel",
+	email : "manuel@gmail.com",
+	password : "manuel",
+	following : ["patrick@gmail.com"]
+}]
+</textarea>
+			<button class="btn btn-default">Importar</button>
+		</div>
+		<div class="col-md-4">
+			<h4>Postagens:</h4>
+			<textarea class="form-control" rows="15">
+[{
+	title : "Post do Mauricio",
+	text : "Algum texto bacana",
+	owner : "mauricio.c.giordano@gmail.com"
+}, {
+	title : "Post do Patrick",
+	text : "Algum outro texto muito bacana",
+	owner : "patrick@gmail.com",
+	likes : ["manuel@gmail.com"]
+}]
+</textarea>
+			<button class="btn btn-default">Importar</button>
+		</div>
+		<div class="col-md-4">
+			<h4>Grupos:</h4>
+			<textarea class="form-control" rows="15">
+[{
+	name : "Grupo Massa",
+	owner : "mauricio.c.giordano@gmail.com",
+	users : ["patrick@gmail.com", "manuel@gmail.com"]
+}]
+</textarea>
+			<button class="btn btn-default">Importar</button>
+		</div>
+	</div>
 </div>
