@@ -22,8 +22,19 @@ module.exports = {
 	// Pega todos os usuarios
 	api_get: function(req, res) {
 
+		if (req.query.query) {
+			var query = {
+				or : [
+					{ name  : { contains : req.query.query } },
+					{ email : { contains : req.query.query } }
+				]
+			};
+		} else {
+			var query = { };
+		}
+
 		User
-		.find()
+		.find(query)
 		.populate('following')
 		.populate('followers')
 		.exec(function(err, users) {

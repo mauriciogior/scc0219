@@ -38,6 +38,14 @@
 
 			},
 
+			loadImage: function() {
+				return localStorage.getItem('image_u' + this.id);
+			},
+
+			storeImage: function(image) {
+				localStorage.setItem('image_u' + this.id, image);
+			},
+
 			delete: function() {
 
 				$http({
@@ -147,29 +155,15 @@
 
 		// Procura por um determinado usuário
 		// Ex: User.find({name : 'Mauricio'})
-		User.find = function(user) {
-			var users = User.all();
-			var equals = false;
-
-			for (var i in users) {
-				equals = false;
-
-				for (var key in user) {
-					if (!user.hasOwnProperty(key)) continue;
-					if (!users[i].hasOwnProperty(key)) continue;
-
-					if (users[i][key] != user[key]) {
-						equals = false;
-						break;
-					} else {
-						equals = true;
-					}
-				}
-
-				if (equals) return users[i];
-			}
-
-			return null;
+		User.find = function(query, success, failure) {
+			$http({
+				method: 'GET',
+				url: '/api/user?query=' + query
+			}).then(function successCallback(response) {
+				if (success) success(response.data);
+			}, function errorCallback(response) {
+				if (failure) failure(response);
+			});
 		}
 
 		// Procura por todos usuarios que contem as chave

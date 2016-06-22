@@ -8,7 +8,6 @@
 	app.controller('ProfileController', ['$scope', '$location', 'User', function($scope, $location, User) {
 
 		$scope.authUser = User.getAuthenticated();
-		console.log($scope.authUser);
 
 		// Redireciona para a página de autenticação
 		if (!$scope.authUser) {
@@ -33,8 +32,9 @@
 				user.bio       = $scope.user.bio;
 				user.birthDate = $scope.user.birthDate;
 				user.password  = $scope.user.password;
-				user.picture   = $scope.user.picture;
+				user.picture   = 'image_u' + user.id;
 
+				user.storeImage($scope.user.picture);
 				user.save();
 
 				User.setAuthenticated(user);
@@ -57,7 +57,7 @@
 			
 			User.findById(userId,
 				function success(user) {
-					$scope.user = user;
+					$scope.user = new User(user);
 				},
 				function failure(user) {
 					window.location = '/';

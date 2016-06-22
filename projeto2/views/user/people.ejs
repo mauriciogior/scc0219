@@ -52,23 +52,26 @@
 		<div class="col-md-12" style="height: 40px"> 
 		</div>
 	</div>
-	<div class="row users" ng-repeat="person in peoplefound" ng-show="person">
+	<div class="row users" ng-repeat="user in peoplefound" ng-show="user">
 		<div class="col-md-4">
 		</div>
 		<div class="col-md-4">
 			<legend>
-				<img class="picture" src="{{ person.picture || 'http://goo.gl/xZnyXV' }}" />
-				<span>{{ person.name }}</span> <b ng-show="user.id == authUser.id">(Eu)</b>
+				<img class="picture" src="{{ user.loadImage() || 'http://goo.gl/xZnyXV' }}" />
+				<span>{{ user.name }}</span> <b ng-show="user.id == authUser.id">(Eu)</b>
 			</legend>
-			<p><b>Email:</b> {{ person.email }}</p>
+			<p><b>Email:</b> {{ user.email }}</p>
 
-			<a href="feed#/{{ person.id }}">
+			<a href="feed#/{{ user.id }}">
 				<button class="btn btn-default btn-xs"> Ver postagens </button>
 			</a>
 
-			<a href="profile#/{{ person.id }}">
+			<a href="profile#/{{ user.id }}">
 				<button class="btn btn-info btn-xs"> Ver perfil </button>
 			</a>
+
+			<button class="btn btn-default btn-xs" ng-click="people.follow(user)" ng-show="user.id != authUser.id && !authUser.isFollowing(user)"> Seguir </button>
+			<button class="btn btn-default btn-xs" ng-click="people.unfollow(user)" ng-show="user.id != authUser.id && authUser.isFollowing(user)"> Parar de Seguir </button>
 		</div>
 		<div class="col-md-4">
 		</div>
@@ -78,30 +81,6 @@
 		</div>
 		<div class="col-md-4" align="center">
 			<span>Nenhum usuário encontrado!</span>
-		</div>
-		<div class="col-md-4">
-		</div>
-	</div>
-	<div class="row users" ng-repeat="user in users" ng-show="key_aux==undefined || key_aux==''">
-		<div class="col-md-4">
-		</div>
-		<div class="col-md-4">
-			<legend>
-				<img class="picture" src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" />
-				<span>{{ user.name }}</span> <b ng-show="user.id == authUser.id">(Eu)</b>
-			</legend>
-				<i ng-show="User.isFollowing(user, authUser)">Seguidor</i>
-				<!-- <i ng-show="User.isFollowing(authUser, user)">*seguindo*</i> -->
-			<p><b>Email:</b> {{ user.email }}</p>
-
-			<a href="profile#/{{ user.id }}">
-				<button class="btn btn-info btn-xs"> Ver perfil </button>
-			</a>
-
-			<!-- <a href="feed#/{{ user.id }}"> -->
-				<button class="btn btn-default btn-xs" ng-click="people.follow(user)" ng-show="user.id != authUser.id && !authUser.isFollowing(user)"> Seguir </button>
-				<button class="btn btn-default btn-xs" ng-click="people.unfollow(user)" ng-show="user.id != authUser.id && authUser.isFollowing(user)"> Parar de Seguir </button>
-			<!-- </a> -->
 		</div>
 		<div class="col-md-4">
 		</div>

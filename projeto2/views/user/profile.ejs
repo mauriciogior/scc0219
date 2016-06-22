@@ -35,131 +35,135 @@
 		</div>
 	</div>
 </nav>
-<div ng-controller="ProfileController as profile" class="container container-main">
-	<div class="row">
-		<div class="col-md-4">
-			<div class="row">
-				<img class="profile-picture" ng-src="{{ user.picture }}" ng-show="user.id == authUser.id" />
-				<img class="profile-picture" src="{{ user.picture }}" ng-show="user.id != authUser.id" />
-			</div>
-			<div class="row" ng-show="user.id == authUser.id">
-				<input type="file" ng-model="user.picture" accept="image/*" ng-change="save()" app-filereader />
+<div class="row container container-main">
+	<div ng-controller="ProfileController as profile" class="col-md-4">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-10">
+				<div class="row">
+					<img class="profile-picture" ng-src="{{ user.loadImage() }}" ng-show="user.id == authUser.id" />
+					<img class="profile-picture" src="{{ user.loadImage() }}" ng-show="user.id != authUser.id" />
+				</div>
+				<div class="row" ng-show="user.id == authUser.id">
+					<input type="file" ng-model="user.picture" accept="image/*" ng-change="save()" app-filereader />
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<form ng-show="user.id == authUser.id">
-				<div class="form-group">
-					<label for="user.id">Seu id</label>
-					<input class="form-control" type="text" ng-model="user.id" placeholder="Id" disabled>
-				</div>
-				<div class="form-group">
-					<label for="user.name">Seu nome</label>
-					<input class="form-control" type="text" ng-model="user.name" placeholder="Nome">
-				</div>
-				<div class="form-group">
-					<label for="user.email">Seu email</label>
-					<input class="form-control" type="text" ng-model="user.email" placeholder="Email">
-				</div>
-				<div class="form-group">
-					<label for="user.bio">Sua descrição</label>
-					<input class="form-control" type="text" ng-model="user.bio" placeholder="Descrição">
-				</div>
-				<div class="form-group">
-					<label for="user.birthDate">Sua data de nascimento</label>
-					<input class="form-control" type="text" ng-model="user.birthDate" placeholder="Data de nascimento">
-				</div>
-				<div class="form-group">
-					<label for="user.password">Sua senha</label>
-					<input class="form-control" type="password" ng-model="user.password" placeholder="Senha">
-				</div>
-				<button class="btn btn-default" ng-click="save()">Salvar</button>
-				<button class="btn btn-danger" ng-click="delete()">Deletar Usuário</button>
-			</form>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-10">
+				<form ng-show="user.id == authUser.id">
+					<div class="form-group">
+						<label for="user.id">Seu id</label>
+						<input class="form-control" type="text" ng-model="user.id" placeholder="Id" disabled>
+					</div>
+					<div class="form-group">
+						<label for="user.name">Seu nome</label>
+						<input class="form-control" type="text" ng-model="user.name" placeholder="Nome">
+					</div>
+					<div class="form-group">
+						<label for="user.email">Seu email</label>
+						<input class="form-control" type="text" ng-model="user.email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="user.bio">Sua descrição</label>
+						<input class="form-control" type="text" ng-model="user.bio" placeholder="Descrição">
+					</div>
+					<div class="form-group">
+						<label for="user.birthDate">Sua data de nascimento</label>
+						<input class="form-control" type="text" ng-model="user.birthDate" placeholder="Data de nascimento">
+					</div>
+					<div class="form-group">
+						<label for="user.password">Sua senha</label>
+						<input class="form-control" type="password" ng-model="user.password" placeholder="Senha">
+					</div>
+					<button class="btn btn-default" ng-click="save()">Salvar</button>
+					<button class="btn btn-danger" ng-click="delete()">Deletar Usuário</button>
+				</form>
 
-			<div ng-show="user.id != authUser.id">
-				<p>Id: {{ user.id }}</p>
-				<p>Nome: {{ user.name }}</p>
-				<p>Email: {{ user.email }}</p>
-				<p>Descrição: {{ user.bio }}</p>
-				<p>Data de nascimento: {{ user.birthDate }}</p>
+				<div ng-show="user.id != authUser.id">
+					<p>Id: {{ user.id }}</p>
+					<p>Nome: {{ user.name }}</p>
+					<p>Email: {{ user.email }}</p>
+					<p>Descrição: {{ user.bio }}</p>
+					<p>Data de nascimento: {{ user.birthDate }}</p>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-2">
-		</div>
 	</div>
-</div>
-<div ng-controller="FeedController as feed" class="container container-main" ng-show="user.id">
-	<div class="row">
-		<div class="col-md-12">
-			<legend><h1 align="center">POSTS</h1></legend>
-		</div>
-	</div>
-	<div class="row" ng-show="user.email == authUser.email">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<form>
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="create.title" placeholder="Título">
-				</div>
-				<div class="form-group">
-					<textarea rows = "4" class="form-control" ng-model="create.text" placeholder="Texto"></textarea>
-				</div>
-				<div class="form-group" align="center">
-					<button type="submit" class="btn btn-default" ng-click="create()">Criar</button>
-				</div>
-			</form>
-		</div>
-		<div class="col-md-2"></div>
-	</div>
-	<div class="row posts" ng-repeat="post in posts">
-		<div class="col-md-2">
-		</div>
-		<div class="col-md-8">
-			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title" align="center">{{ post.title }}</h3>
-			  </div>
-			  <div class="panel-body">
-			    {{ post.text }}
-			    
-			  </div>
-			  <p align="right"><i><font size="1">Publicado por <b>{{ post.owner.name }}</b> em {{ post.createdAt }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</font></i></p>
-			</div>
-			<p align="center">
-				<button class="btn btn-success btn-xs" ng-show="user.id == authUser.id" ng-click="openEdit(post)">
-					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					Editar
-				</button>
-				<button class="btn btn-danger btn-xs" ng-show="user.id == authUser.id" ng-click="delete(post)">
-					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					Remover
-				</button>
-			</p>
-			<div class="input-group" ng-show="vOpenEdit == post.id">
-				<div class="form-group">
-					<input type="text" class="form-control" id="title-{{ post.id }}" value="{{ post.title }}">
-				</div>
-				<div class="form-group">
-					<textarea rows = "4" class="form-control" id="text-{{ post.id }}">{{ post.text }}</textarea>
-				</div>
-				<div class="form-group" align="center">
-				<!-- <input type="text" class="form-control"  id="{{ post.id }}" value="{{ post.text }}"> -->
-				<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="edit(post)">
-					Editar
-				</button>
-				<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="cancelEdit(post)">
-					Cancelar
-				</button>
+	<div ng-controller="FeedController as feed" class="col-md-8" ng-show="user.id">
+		<div class="row">
+			<div class="col-md-12">
+				<legend><h1 align="center">POSTS</h1></legend>
 			</div>
 		</div>
-		<div class="col-md-2">
+		<div class="row" ng-show="user.email == authUser.email">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<form>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="create.title" placeholder="Título">
+					</div>
+					<div class="form-group">
+						<textarea rows = "4" class="form-control" ng-model="create.text" placeholder="Texto"></textarea>
+					</div>
+					<div class="form-group" align="center">
+						<button type="submit" class="btn btn-default" ng-click="create()">Criar</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-2"></div>
 		</div>
-	</div>
-	<div class="row" ng-show="!posts.length">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<h1 align="center">Nenhum post para {{ user.name }}</h1>
+		<div class="row posts" ng-repeat="post in posts">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-8">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title" align="center">{{ post.title }}</h3>
+				  </div>
+				  <div class="panel-body">
+				    {{ post.text }}
+				    
+				  </div>
+				  <p align="right"><i><font size="1">Publicado por <b>{{ post.owner.name }}</b> em {{ post.createdAt }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</font></i></p>
+				</div>
+				<p align="center">
+					<button class="btn btn-success btn-xs" ng-show="user.id == authUser.id" ng-click="openEdit(post)">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						Editar
+					</button>
+					<button class="btn btn-danger btn-xs" ng-show="user.id == authUser.id" ng-click="delete(post)">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Remover
+					</button>
+				</p>
+				<div class="input-group" ng-show="vOpenEdit == post.id">
+					<div class="form-group">
+						<input type="text" class="form-control" id="title-{{ post.id }}" value="{{ post.title }}">
+					</div>
+					<div class="form-group">
+						<textarea rows = "4" class="form-control" id="text-{{ post.id }}">{{ post.text }}</textarea>
+					</div>
+					<div class="form-group" align="center">
+					<!-- <input type="text" class="form-control"  id="{{ post.id }}" value="{{ post.text }}"> -->
+					<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="edit(post)">
+						Editar
+					</button>
+					<button class="btn btn-default btn-xs" ng-show="user.id == authUser.id" ng-click="cancelEdit(post)">
+						Cancelar
+					</button>
+				</div>
+			</div>
+			<div class="col-md-2">
+			</div>
 		</div>
-		<div class="col-md-2"></div>
+		<div class="row" ng-show="!posts.length">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<h1 align="center">Nenhum post para {{ user.name }}</h1>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
 	</div>
 </div>
