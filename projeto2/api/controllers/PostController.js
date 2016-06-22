@@ -123,7 +123,58 @@ module.exports = {
 				});
 			});
 		});
+	},
+
+	// Da um like no post
+	api_like: function(req, res) {
+
+		var _post;
+
+		Post
+		.findOne({ id : req.params.pid })
+		.exec(function(err, post) {
+			if (err || !post) {
+				return res.status(400).json({});
+			}
+
+			post.likes.add(req.params.uid);
+
+			post.save(function(err, post) {
+				if (err || !post) {
+					console.log(err);
+					return res.status(400).json({});
+				}
+
+				return res.json(post)
+			});
+		});
+	},
+
+	// Da um dislike no post
+	api_dislike: function(req, res) {
+
+		var _post;
+
+		Post
+		.findOne({ id : req.params.pid })
+		.exec(function(err, post) {
+			if (err || !post) {
+				return res.status(400).json({});
+			}
+
+			post.dislikes.add(req.params.uid);
+
+			post.save(function(err, post) {
+				if (err || !post) {
+					console.log(err);
+					return res.status(400).json({});
+				}
+
+				return res.json(post)
+			});
+		});
 	}
+
 
 };
 
