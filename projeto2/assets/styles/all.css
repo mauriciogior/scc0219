@@ -1,3 +1,33 @@
 .container-main {
 	padding-top: 100px;
 }
+
+.btn-feed {
+	position: relative;
+	top: -31px;
+	left: 16px;
+}
+
+.picture-feed {
+	position: absolute;
+	top: -15px;
+	left: -4px;
+}
+
+/*.btn-like {
+	position: absolute;
+	top: 109px;
+	left: 50px;
+}
+
+.btn-dislike {
+	position: absolute;
+	top: 109px;
+	left: 103px;
+}
+
+.btn-share {
+	position: absolute;
+	top: 109px;
+	left: 169px;
+}*/
