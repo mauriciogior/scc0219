@@ -32,11 +32,8 @@
 				user.bio       = $scope.user.bio;
 				user.birthDate = $scope.user.birthDate;
 				user.password  = $scope.user.password;
-				user.picture   = 'image_u' + user.id;
+				user.picture   = $scope.user.picture;
 
-				if ($scope.user.picture)
-					user.storeImage($scope.user.picture);
-				
 				user.save();
 			}
 

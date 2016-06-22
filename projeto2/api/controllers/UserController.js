@@ -53,6 +53,7 @@ module.exports = {
 
 		var user = {
 			name: req.body.name,
+			username: req.body.username,
 			email: req.body.email,
 			password: req.body.password
 		};
@@ -96,11 +97,13 @@ module.exports = {
 			if (!user) {
 				return res.status(401).json({});
 			} else {
-				if (req.body.name)  user.name  = req.body.name;
-				if (req.body.email) user.email = req.body.email;
-				if (req.body.bio)   user.bio   = req.body.bio;
-				if (req.body.birthDate) user.birthDate = req.body.birthDate;
-				if (req.body.password)  user.password  = req.body.password;
+				if (req.body.name)        user.name = req.body.name;
+				if (req.body.username)    user.username = req.body.username;
+				if (req.body.email)       user.email = req.body.email;
+				if (req.body.description) user.description = req.body.description;
+				if (req.body.birthday)    user.birthday = req.body.birthday;
+				if (req.body.picture)     user.picture = req.body.picture;
+				if (req.body.password)    user.password = req.body.password;
 
 				_user = user;
 

@@ -46,6 +46,7 @@
 			// Dados necessários
 			var data = {
 				name		 : $scope.create.name,
+				username : $scope.create.username,
 				email    : $scope.create.email,
 				password : $scope.create.password
 			};

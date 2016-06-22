@@ -57,7 +57,7 @@
 		</div>
 		<div class="col-md-4">
 			<legend>
-				<img class="picture" src="{{ user.loadImage() || 'http://goo.gl/xZnyXV' }}" />
+				<img class="picture" src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" />
 				<span>{{ user.name }}</span> <b ng-show="user.id == authUser.id">(Eu)</b>
 			</legend>
 			<p><b>Email:</b> {{ user.email }}</p>

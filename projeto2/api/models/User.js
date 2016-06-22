@@ -13,14 +13,19 @@ module.exports = {
 			required: true,
 			notNull: true
 		},
+		username: {
+			type: 'string',
+			required: true,
+			unique: true
+		},
 		email: {
 			type: 'string',
 			unique: true
 		},
-		bio: {
+		description: {
 			type: 'string'
 		},
-		birthDate: {
+		birthday: {
 			type: 'string'
 		},
 		password: {

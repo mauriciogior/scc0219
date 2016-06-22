@@ -41,11 +41,8 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-10">
 				<div class="row">
-					<img class="profile-picture" ng-src="{{ user.loadImage() }}" ng-show="user.id == authUser.id" />
-					<img class="profile-picture" src="{{ user.loadImage() }}" ng-show="user.id != authUser.id" />
-				</div>
-				<div class="row" ng-show="user.id == authUser.id">
-					<input type="file" ng-model="user.picture" accept="image/*" ng-change="save()" app-filereader />
+					<img class="profile-picture" ng-src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" ng-show="user.id == authUser.id" />
+					<img class="profile-picture" src="{{ user.picture || 'http://goo.gl/xZnyXV' }}" ng-show="user.id != authUser.id" />
 				</div>
 			</div>
 		</div>
@@ -62,12 +59,20 @@
 						<input class="form-control" type="text" ng-model="user.name" placeholder="Nome">
 					</div>
 					<div class="form-group">
+						<label for="user.username">Seu username</label>
+						<input class="form-control" type="text" ng-model="user.username" placeholder="Username">
+					</div>
+					<div class="form-group">
 						<label for="user.email">Seu email</label>
 						<input class="form-control" type="text" ng-model="user.email" placeholder="Email">
 					</div>
 					<div class="form-group">
-						<label for="user.bio">Sua descrição</label>
-						<input class="form-control" type="text" ng-model="user.bio" placeholder="Descrição">
+						<label for="user.picture">Sua foto</label>
+						<input class="form-control" type="text" ng-model="user.picture" placeholder="Ex: http://goo.gl/asuNCzx">
+					</div>
+					<div class="form-group">
+						<label for="user.description">Sua descrição</label>
+						<input class="form-control" type="text" ng-model="user.description" placeholder="Descrição">
 					</div>
 					<div class="form-group">
 						<label for="user.birthDate">Sua data de nascimento</label>
@@ -84,8 +89,9 @@
 				<div ng-show="user.id != authUser.id">
 					<p>Id: {{ user.id }}</p>
 					<p>Nome: {{ user.name }}</p>
+					<p>Username: {{ user.username }}</p>
 					<p>Email: {{ user.email }}</p>
-					<p>Descrição: {{ user.bio }}</p>
+					<p>Descrição: {{ user.description }}</p>
 					<p>Data de nascimento: {{ user.birthDate }}</p>
 				</div>
 			</div>
