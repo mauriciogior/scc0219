@@ -76,6 +76,9 @@ module.exports = {
 		Post
 		.find({ owner : req.params.uid })
 		.populate('owner')
+		.populate('likes')
+		.populate('dislikes')
+		.populate('shares')
 		.exec(function(err, posts) {
 			if (err || !posts) {
 				console.log(err);
@@ -84,6 +87,42 @@ module.exports = {
 			return res.json(posts)
 		});
 
+	},
+
+	// Compartilha um post de um usuário
+	api_share: function(req, res) {
+
+		var _post;
+
+		Post
+		.findOne({ id : req.params.pid })
+		.exec(function(err, post) {
+			if (err || !post) {
+				return res.status(400).json({});
+			}
+
+			post.shares.add(req.params.uid);
+
+			_post = {
+				originalId : post.id,
+				title : post.title,
+				text : post.text,
+				owner : req.params.uid
+			}
+
+			post.save(function(err, post) {
+				Post
+				.create(_post)
+				.exec(function(err, post) {
+					if (err || !post) {
+						console.log(err);
+						return res.status(400).json({});
+					}
+
+					return res.json(post)
+				});
+			});
+		});
 	}
 
 };

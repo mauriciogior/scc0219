@@ -68,7 +68,8 @@
 			    {{ post.text }}
 			    
 			  </div>
-			  <p align="right"><i><font size="1">Publicado por <b>{{ post.owner.name }}</b> em {{ post.createdAt }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</font></i></p>
+			  <p align="right"><i><font size="1" style="padding-right: 20px">Publicado por <b>{{ post.owner.name }}</b> em {{ post.createdAt }}</font></i></p>
+				<p align="right"><i><font size="1" style="padding-right: 20px">{{ post.likes.length }} Likes, {{ post.dislikes.length }} Dislikes, {{ post.shares.length }} Shares.</font></i></p>
 			</div>
 			<p align="center">
 				<button class="btn btn-success btn-xs" ng-show="post.owner.id == authUser.id" ng-click="openEdit(post)">

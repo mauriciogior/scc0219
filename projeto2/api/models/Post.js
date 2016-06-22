@@ -8,6 +8,9 @@
 module.exports = {
 
  	attributes: {
+		originalId: {
+			model: 'Post'
+		},
 		title: {
 			type: 'string',
 			required: true,
@@ -20,6 +23,18 @@ module.exports = {
 		},
 		owner: {
 			model: 'User'
+		},
+		likes: {
+			collection: 'User',
+			via: 'likes'
+		},
+		dislikes: {
+			collection: 'User',
+			via: 'dislikes'
+		},
+		shares: {
+			collection: 'User',
+			via: 'shares'
 		}
   },
   

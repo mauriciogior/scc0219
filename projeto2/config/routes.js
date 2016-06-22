@@ -50,10 +50,11 @@ module.exports.routes = {
   'put /api/user/:uid/follow/:fid': 'UserController.api_follow',
   'put /api/user/:uid/unfollow/:fid': 'UserController.api_unfollow',
 
-  'get /api/user/:uid/feed':  'PostController.api_feed',
-  'post /api/user/:uid/post': 'PostController.api_create',
-  'put /api/post/:id':        'PostController.api_edit',
-  'delete /api/post/:id':     'PostController.api_delete',
+  'get /api/user/:uid/feed':       'PostController.api_feed',
+  'post /api/user/:uid/post':      'PostController.api_create',
+  'put /api/post/:id':             'PostController.api_edit',
+  'delete /api/post/:id':          'PostController.api_delete',
+  'put /api/user/:uid/share/:pid': 'PostController.api_share',
 
   'get /api/groups':                   'GroupController.api_get',
   'post /api/group':                   'GroupController.api_create',

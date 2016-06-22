@@ -50,6 +50,18 @@ module.exports = {
 			collection: 'Group',
 			via: 'users'
 		},
+		likes: {
+			collection: 'Post',
+			via: 'likes'
+		},
+		dislikes: {
+			collection: 'Post',
+			via: 'dislikes'
+		},
+		shares: {
+			collection: 'Post',
+			via: 'shares'
+		},
 		mygroups: {
 			collection: 'Group',
 			via: 'owner'
