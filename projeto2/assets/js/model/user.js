@@ -169,11 +169,9 @@
 
 		// Procura por todos usuarios que contem as chave
 		// Ex: User.find({name : 'Mauricio'})
-		User.findAll = function(user) {
-			var users = User.all();
+		User.findAll = function(user, users) {
 			var equals = false;
 			var usersFound = [];
-
 			for (var i in users) {
 				equals = false;
 
